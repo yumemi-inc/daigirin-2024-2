@@ -31,7 +31,9 @@ iOS は Swift、Android は Kotlin を利用して、モバイルアプリを開
 [^just]: https://github.com/angus-c/just
 [^lodash]: https://www.npmjs.com/package/lodash
 
-JavaScript ライブラリはファイル構成や他ライブラリ依存性の問題で簡単には読み込めません。たとえば、ディレクトリで構造化されるので、`hogehoge/index.js` や `piyopiyo/index.js` のように同名ファイルが頻繁に存在します。そのまま Xcode のプロジェクトに追加すると問題になるので、読み込みやすい形に形成します。では最初に、その just-mean を手元に用意します。
+JavaScript ライブラリはファイル構成や他ライブラリ依存性の問題で簡単には読み込めません。たとえば、ディレクトリで構造化されるので hogehoge/index.js や piyopiyo/index.js のように同名ファイルが頻繁に存在します。そのまま Xcode のプロジェクトに追加すると問題になるので、読み込みやすい形に形成します。
+
+では最初に、その just-mean を手元にダウンロードします。
 
 ```shell
 % yarn init
@@ -111,13 +113,13 @@ module.exports = {
 }
 ```
 
-では、バンドルファイルを作成します。問題なければ `Module.bundle.js` が作成されます。
+では、バンドルファイルを作成します。問題なければ Module.bundle.js が作成されます。
 
 ```bash
 yarn webpack
 ```
 
-ここで just ライブラリは依存性が少ないので、問題なくバンドルファイルが作成されます。しかい、依存性があるライブラリの場合は、その他のライブラリで利用される関数の依存性を解決できないです。その場合は、webpack.config.js に fallback を設定します。
+ここで just ライブラリは依存性が少ないので、問題なくバンドルファイルが作成されます。しかし、依存性があるライブラリの場合は、その他のライブラリで定義される関数の依存性を解決できないです。対応例として webpack.config.js に fallback を設定します。
 
 ```javascript
 resolve: {
@@ -210,17 +212,17 @@ func mean(_ args: [Double]) throws -> Double {
 }
 ```
 
-処理実行のたびに、このエラーハンドリングを書くのは正直面倒です。基本は context.exceptionHandler でエラーを検知して、必要なところだけ個別に検知しようと考えるでしょう。しかし、これらは排他的で、どちらかのみです。両方は共存できません。
+基本は context.exceptionHandler でエラーを検知して、必要なところだけ個別に検知しようと考えるでしょう。しかし、これらは排他的で、どちらかのみです。両方は共存できません。
 
 個人的に勧めるのは、バンドルファイルを導入して正しく動作するか検証する初期フェーズであれば context.exceptionHandler を利用しましょう。最初はトライ＆エラーで色々試すことが多いので、エラーを漏れなく検知するのが優先されるでしょう。そして、ある程度開発が進んで動作が安定したら、関数の個別エラー処理に移行して、アプリ本体への安全性を高めましょう。
 
-また、別アプローチとしては処理を行った際に、その戻り値が nil ならエラーとして扱う方法もあります。ただし、エラーメッセージは取得できないので、エラー設計は慎重にしましょう。
+別アプローチとしては context の処理を行った際に、その戻り値が nil ならエラーとして扱う方法もあります。ただし、エラーメッセージはないので、エラー設計は慎重に行いましょう。
 
-<!-- ```swift
+```swift
 guard let module = context.objectForKeyedSubscript("Module") else {
   throw JavaScriptBridgeError.moduleNotFound
 }
-``` -->
+```
 
 ## まとめ
 
@@ -228,6 +230,6 @@ iOS で JavaScript ライブラリを実行する方法を紹介しました。�
 
 どうしても iOS と Android で JavaScript のライブラリを実行したいというシーンで利用できると考えます。そんなシーンは来ないよ…と思ってた矢先、両 OS で JavaScript ライブラリの利用について相談されました。ということで、局所的にはなりますが、Vanilla JavaScript のマルチプラットフォームはあります。夢から醒めます。
 
-本記事で挙げたサンプルは GitHub のリポジトリ [^UseJavaScriptPackages] を公開しています。興味ある方は見てください。なお、Vanilla JavaScript でマルチプラットフォームをがっつり行いたい場合は Vanilla ではなく、React Native の導入を勧めます。
+本記事で挙げたサンプルは [GitHub のリポジトリ](https://github.com/mitsuharu/UseJavaScriptPackages) [^UseJavaScriptPackages] を公開しています。興味ある方は見てください。なお、Vanilla JavaScript でマルチプラットフォームを本格的に行いたい場合は Vanilla ではなく、React Native の導入を勧めます。
 
 [^UseJavaScriptPackages]: https://github.com/mitsuharu/UseJavaScriptPackages
