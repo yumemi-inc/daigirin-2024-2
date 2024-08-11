@@ -15,13 +15,15 @@ class: content
 :::
 -->
 
-以下は、iosdc-2024-pamphlet からコピー&ペーストした。直す。
+iOS は Swift、Android は Kotlin を利用して、モバイルアプリを開発してきました。今は Flutter、React Native そして KMP などクロスプラットフォーム技術を利用して開発する手段も一般的になってきました。本記事はそれらを利用せずに、クロスプラットフォームに挑戦します。iOS および Android で利用できるプログラミング言語には C++ や JavaScript があります。今回は iOS において JavaScript を本当に導入できるのかを検証します。
 
-本記事は、[YUMEMI.grow Mobile #13](https://yumemi.connpass.com/event/317381/) [^ygm-13] で発表した内容 [^speakerdeck] および [iOSDC Japan 2024](https://iosdc.jp/2024/) のパンフレットに寄稿した記事 [^iosdc-2024-pamphlet] の一部を底本として、加筆・訂正を行なったものになります。
+本記事は、[YUMEMI.grow Mobile #13](https://yumemi.connpass.com/event/317381/) [^ygm-13] で発表した内容 [^speakerdeck] および [iOSDC Japan 2024](https://iosdc.jp/2024/) に寄稿した記事 [^iosdc-2024-pamphlet] の一部を底本として、加筆・訂正を行なったものになります。
 
 [^ygm-13]: https://yumemi.connpass.com/event/317381/
 [^speakerdeck]: https://speakerdeck.com/mitsuharu/2024-05-17-javascript-multiplatform
 [^iosdc-2024-pamphlet]: https://fortee.jp/iosdc-japan-2024/proposal/77eccb66-ea35-4c9f-aa33-a36ce98569df
+
+## aaa
 
 Swift 移植版を作りたいが難しいと詰んだところに、一筋の光明が差す。iOS は JavaScriptCore を持っているので、JavaScript のライブラリを実行できます。準備として、その ReceiptLine を手元に用意します。
 
