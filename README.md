@@ -81,6 +81,12 @@ npm install
 brew install ghostscript
 ```
 
+Yarn を利用される方は、corepack を有効にしてください。
+
+```
+corepack enable
+```
+
 ### 実行
 
 - `npm run start` : pdfを生成して開く（`make run` 相当）
