@@ -39,7 +39,7 @@ iOS は Swift、Android は Kotlin を利用して、モバイルアプリを開
 
 ## JavaScript ライブラリを準備する
 
-今回の例として [just-mean](https://www.npmjs.com/package/just-mean) [^just-mean] というライブラリを iOS アプリ開発のプロジェクトへの導入を試みます。なお、この just [^just] は JavaScript の定番ライブラリ lodash [^lodash] の代替候補の１つとされているライブラリです。ライブラリごとに機能を分けているので、軽量で他ライブラリへの依存も少ないという利点があります。今回の例として、最適なライブラリです。
+今回の例として [just-mean](https://www.npmjs.com/package/just-mean) [^just-mean] というライブラリを iOS アプリ開発のプロジェクトへの導入を試みます。なお、この [just](https://github.com/angus-c/just) [^just] は JavaScript の定番ライブラリ [lodash](https://www.npmjs.com/package/lodash) [^lodash] の代替候補の１つとされているライブラリです。ライブラリごとに機能を分けているので、軽量で他ライブラリへの依存も少ないという利点があります。今回の例として、最適なライブラリです。
 
 [^just-mean]: https://www.npmjs.com/package/just-mean
 [^just]: https://github.com/angus-c/just
@@ -264,7 +264,7 @@ func mean(_ args: [Double]) throws -> Double {
 
 個人的に勧めるのは、バンドルファイルを導入して正しく動作するか検証する初期フェーズであれば context.exceptionHandler を利用しましょう。最初はトライ＆エラーで色々試すことが多いので、エラーを漏れなく検知するのが優先されるでしょう。そして、ある程度開発が進んで動作が安定したら、関数の個別エラー処理に移行して、アプリ本体への安全性を高めましょう。
 
-別アプローチとしては context の処理を行った際に、その戻り値が nil ならエラーとして扱う方法もあります。ただし、エラーメッセージは取得できません。対処の処理に合わせて、エラーの種類を個別に設定して、開発者側でエラー原因をハンドリングしましょう。
+別アプローチとしては context の処理を行った際に、その戻り値が nil ならエラーとして扱う方法もあります。ただし、エラーメッセージは取得できません。対象の処理に合わせて、エラーの種類を個別に設定して、開発者側でエラー原因をハンドリングしましょう。
 
 ```swift
 guard let module = context.objectForKeyedSubscript("Module") else {
