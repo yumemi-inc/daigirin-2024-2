@@ -15,16 +15,17 @@ class: content
 :::
 -->
 
-iOS は Swift、Android は Kotlin を利用して、モバイルアプリを開発してきました。今は Flutter、React Native そして KMP などマルチプラットフォーム技術を利用して開発する手段も一般的になってきました。
+iOS は Swift、Android は Kotlin を利用して、モバイルアプリを開発してきました。さらに今は Flutter、React Native そして KMP などマルチプラットフォーム技術を利用して開発する手段も一般的になってきました。
 
 本記事はそれらを利用せずに、マルチプラットフォームに挑戦します。iOS および Android で利用できるプログラミング言語には C++ や JavaScript があります。今回は iOS アプリ開発の視点から JavaScript を本当に導入できるのか、その使い心地はどうなのかを検証します。
 
-開発環境は MacBook Pro 14 インチ 2021、Apple M1 Pro、macOS Sonoma 14.6.1 を用いて、Xcode 15.4 を利用しました。
+開発環境は MacBook Pro 14 インチ 2021、Apple M1 Pro、macOS Sonoma 14.6.1 を用いて、Xcode 15.4 で開発しました。
 
-本記事は、勉強会 [YUMEMI.grow Mobile #13](https://yumemi.connpass.com/event/317381/) [^ygm-13] で発表した内容 [^speakerdeck] および [iOSDC Japan 2024](https://iosdc.jp/2024/) に寄稿した記事 [^iosdc-2024-pamphlet] の一部を底本として、加筆・訂正を行なったものになります。
+本記事は、勉強会 [YUMEMI.grow Mobile #13](https://yumemi.connpass.com/event/317381/) [^ygm-13] で発表した内容 [^speakerdeck] および [iOSDC Japan 2024](https://iosdc.jp/2024/) [^iosdc-2024] に寄稿した記事 [^iosdc-2024-pamphlet] の一部を底本として、加筆・訂正を行なったものになります。
 
 [^ygm-13]: <https://yumemi.connpass.com/event/317381/>
 [^speakerdeck]: <https://speakerdeck.com/mitsuharu/2024-05-17-javascript-multiplatform>
+[^iosdc-2024]: <https://iosdc.jp/2024/>
 [^iosdc-2024-pamphlet]: <https://fortee.jp/iosdc-japan-2024/proposal/77eccb66-ea35-4c9f-aa33-a36ce98569df>
 
 <!-- Qiita用
@@ -230,7 +231,7 @@ func mean(_ args: [Double]) -> Double {
 
 Swift と同時に JavaScript を利用するので、エラーは何が原因で起こったのか分かりづらいです。エラーハンドリングは確実に行いましょう。特に JavaScript のバンドルファイルを埋め込んだ直後だと、iOS 側の埋め込むコードに問題があるのか、JavaScript のバンドルファイル自体に問題があるのかが分からず混乱します。エラーを頼りに原因を特定して、コードを修正しましょう。
 
-エラーハンドリングは context.exceptionHandler にクロージャを設定すれば、JavaScript 由来のエラーが起こった場合に、そのエラーを検知できます。
+エラーハンドリングは context.exceptionHandler にクロージャを設定します。これで JavaScript 由来のエラーが起こった場合に、そのエラーを検知できます。
 
 ```swift
 // エラーハンドリング
@@ -253,16 +254,16 @@ func mean(_ args: [Double]) throws -> Double {
   let result = mean.call(withArguments: [args])
   if let exception = context.exception {
     let message = exception.toString() ?? ""
-    context.exception = nil // 他の処理で誤検知されないように初期化しておく
+    context.exception = nil // 他の処理で誤検知されないようにクリアする
     throw JavaScriptBridgeError.exception(message: message)
   }
   return result.toDouble()
 }
 ```
 
-何かの処理実行のたびに、このエラーハンドリングを行うのは正直面倒ですよね。基本は context.exceptionHandler でエラーを検知して、必要なところだけ個別に検知しようと考えるでしょう。しかし、これらは排他的に機能します。両方は共存できません。どちらかのみを選択します。
+何かの処理実行のたびに、このエラーハンドリングを行うのは正直面倒ですよね。基本は context.exceptionHandler でエラーを検知して、必要なところだけ個別に検知しようと考えることでしょう。しかしながら、これらは排他的に機能します。両方は共存できません。どちらかのみを選択することになります。
 
-個人的に勧めるのは、バンドルファイルを導入して正しく動作するか検証する初期フェーズであれば context.exceptionHandler を利用しましょう。最初はトライ＆エラーで色々試すことが多いので、エラーを漏れなく検知するのが優先されるでしょう。そして、ある程度開発が進んで動作が安定したら、関数の個別エラー処理に移行して、アプリ本体への安全性を高めましょう。
+私が勧めるのは、バンドルファイルを導入して正しく動作するか検証する初期フェーズであれば context.exceptionHandler を利用しましょう。最初はトライ＆エラーで色々試すことが多いので、エラーを漏れなく検知するのが優先されるでしょう。そして、ある程度開発が進んで動作が安定したら、関数の個別エラー処理に移行して、アプリ本体への安全性を高めましょう。
 
 別アプローチとしては context の処理を行った際に、その戻り値が nil ならエラーとして扱う方法もあります。ただし、エラーメッセージは取得できません。対象の処理に合わせて、エラーの種類を個別に設定して、開発者側でエラー原因をハンドリングしましょう。
 
@@ -272,7 +273,7 @@ guard let module = context.objectForKeyedSubscript("Module") else {
 }
 ```
 
-iOS で JavaScript のコードを実行する場合は、エラー設計は慎重に行いましょう。実際に、私も依存性が多いライブラリを導入したとき、このエラーハンドリングに何度も助けられました。
+iOS で JavaScript のコードを実行する場合は、エラー設計は慎重に行いましょう。実際に、依存性が高いライブラリを導入したとき、このエラーハンドリングに何度も助けられました。
 
 ## まとめ
 
