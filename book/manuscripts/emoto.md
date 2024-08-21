@@ -296,7 +296,7 @@ https://github.com/mitsuharu/UseJavaScriptPackages
 本記事は Qiita でも読むことができます。後述の URL または QR コードからアクセスしてください。加筆や修正などがある場合は Qiita 記事で対応しますのでご確認ください。また、ご質問等があれば、お気軽にコメントしてください。
 
 ```url
-https://qiita.com/mitsuharu_e/items/xxxxxxxxxxxx
+https://qiita.com/mitsuharu_e/items/a3c61783e8e5029291aa
 ```
 
 ![記事のQRコード](./images_emoto/qr-code.jpg "記事のQRコード")
