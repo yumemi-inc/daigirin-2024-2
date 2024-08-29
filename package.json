@@ -1,8 +1,8 @@
 {
-  "name": "daigirin-template",
+  "name": "daigirin-2024-2",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "git@github.com:yumemi/daigirin-template.git",
+  "repository": "git@github.com:yumemi-inc/daigirin-2024-2.git",
   "author": "YUMEMI Inc",
   "license": "MIT",
   "scripts": {
