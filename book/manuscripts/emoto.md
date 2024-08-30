@@ -50,7 +50,7 @@ iOS は Swift、Android は Kotlin を利用して、モバイルアプリを開
 
 JavaScript ライブラリはファイル構成や他ライブラリへの依存性の問題で、そのままで iOS のプロジェクトに組み込むことは難しいです。たとえば、JavaScript のプロジェクトはディレクトリで構造化されるので hogehoge/index.js や piyopiyo/index.js といった同名ファイルが頻繁に存在します。そのまま Xcode のプロジェクトに追加すると問題になります。そこで、読み込みやすい形、バンドルファイルを作成します。
 
-では最初に、利用するライブラリ just-mean を手元にダウンロードします。
+では最初に、利用するライブラリ just-mean を手元にダウンロードします。今回、パッケージマネージャに yarn を採用しました。
 
 ```shell
 % yarn add just-mean
@@ -168,8 +168,8 @@ module.exports = {
 ```javascript
 resolve: {
   fallback: {
-    "hogehoge": false,
-    "piyopiyo": "",
+    "fuga": false,
+    "hogera": ""
   }
 }
 ```
@@ -191,7 +191,7 @@ final class JavaScriptBridge {
   private let context = JSContext(virtualMachine: JSVirtualMachine())
   private let bundleFile = "Module.bundle.js"
 
-  private func prepare() throws {
+  func prepare() throws {
     let bundle = Bundle.main
     guard
       let path = bundle.path(forResource: bundleFile, ofType: nil),
@@ -246,7 +246,7 @@ context.exceptionHandler = { context, error in
 }
 ```
 
-このエラーハンドリングはエラーを漏れなく検知できるので便利です。しかしながら、特定箇所のエラーを検知したい場合は不向きです。個別にエラーを取得したい場合は context を何か実行するたびに exception を調べます。先ほどの mean 関数は次のように書き直されます。
+このエラーハンドリングはエラーを漏れなく検知できるので便利です。しかしながら、特定箇所のエラーを検知したい場合は不向きです。個別にエラーを取得したい場合は context を何か実行するたびに exception を調べます。先ほどの mean 関数は次のように書き直されます。また、Swift 側の関数にもテストを忘れずに書いて、動作を確認しましょう。
 
 ```swift
 // エラーが起こったら例外を投げるように修正された
@@ -263,7 +263,7 @@ func mean(_ args: [Double]) throws -> Double {
 
 何かの処理実行のたびに、このエラーハンドリングを行うのは正直面倒ですよね。基本は context.exceptionHandler でエラーを検知して、必要なところだけ個別に検知しようと考えることでしょう。しかしながら、これらは排他的に機能します。両方は共存できません。どちらかのみを選択することになります。
 
-私が勧めるのは、バンドルファイルを導入して正しく動作するか検証する初期フェーズであれば context.exceptionHandler を利用しましょう。最初はトライ＆エラーで色々試すことが多いので、エラーを漏れなく検知するのが優先されるでしょう。そして、ある程度開発が進んで動作が安定したら、関数の個別エラー処理に移行して、アプリ本体への安全性を高めましょう。
+私が勧めるのは、バンドルファイルを導入して正しく動作するか検証する初期フェーズであれば context.exceptionHandler を利用しましょう。最初はトライ＆エラーで色々試すことが多いので、エラーを漏れなく検知するのが優先されるでしょう。そして、ある程度開発が進んで動作が安定したら、アプリで実際に利用される関数の個別エラー処理に移行して、アプリ本体への安全性を高めましょう。
 
 別アプローチとしては context の処理を行った際に、その戻り値が nil ならエラーとして扱う方法もあります。ただし、エラーメッセージは取得できません。対象の処理に合わせて、エラーの種類を個別に設定して、開発者側でエラー原因をハンドリングしましょう。
 
@@ -273,11 +273,11 @@ guard let module = context.objectForKeyedSubscript("Module") else {
 }
 ```
 
-iOS で JavaScript のコードを実行する場合は、エラー設計は慎重に行いましょう。実際に、依存性が高いライブラリを導入したとき、このエラーハンドリングに何度も助けられました。
+iOS で JavaScript のコードを実行する場合は、エラー設計は慎重に行いましょう。実際に、私も依存性が高いライブラリを導入したとき、このエラーハンドリングに何度も助けられました。
 
 ## まとめ
 
-iOS で JavaScript ライブラリを実行する方法を紹介しました。本記事では iOS のみを対象としましたが、紹介したバンドルファイルが Android でも動作するのも確認しました。Vanilla JavaScript でマルチプラットフォームは技術的には可能です。しかしながら、型安全ではない、OS の種類やバージョンで JavaScript エンジンが異なるので、安定性に欠けるという問題もあります。夢を見ています。
+iOS で JavaScript ライブラリを実行する方法を紹介しました。本記事では iOS のみを対象としましたが、紹介したバンドルファイルが Android でも動作することを確認しています。Vanilla JavaScript でマルチプラットフォームは技術的には可能です。しかしながら、型安全ではない、OS の種類やバージョンで JavaScript エンジンが異なるので、安定性に欠けるという問題もあります。夢を見ています。
 
 どうしても iOS と Android で JavaScript のライブラリを実行したいというシーンで利用できると考えます。そんなシーンは来ないよ…と思ってた矢先、両 OS で JavaScript ライブラリの利用について相談されました。ということで、局所的にはなりますが、Vanilla JavaScript のマルチプラットフォームはありました。夢から醒めます。
 
