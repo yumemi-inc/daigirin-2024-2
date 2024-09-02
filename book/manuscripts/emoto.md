@@ -178,7 +178,7 @@ resolve: {
 
 ## iOS で JavaScript ライブラリを読み込む
 
-バンドルファイルを iOS アプリのプロジェクトに追加します。フレームワーク JavaScriptCore を import して、JSContext でそのファイルを読み込みます。以降に紹介する Swift のコードは一部を簡略表示しています。詳細は後に紹介するサンプルリポジトリを確認してください。
+前節で作成したバンドルファイルを iOS アプリのプロジェクトに追加します。フレームワーク JavaScriptCore を import して、JSContext でそのファイルを読み込みます。以降に紹介する Swift のコードは簡略表示しています。詳細は付録のサンプルリポジトリを確認してください。
 
 ```swift
 import JavaScriptCore
@@ -206,32 +206,32 @@ final class JavaScriptBridge {
 }
 ```
 
-この context に対して webpack で設定したモジュール名や関数名を頼りに JavaScript で定義した関数を取得します。
+この context に対して webpack で設定したモジュール名や関数名を頼りに JavaScript で定義した関数のオブジェクトを取得します。
 
 ```swift
 guard
   let module = context.objectForKeyedSubscript("Module"),
   let bridge = module?.objectForKeyedSubscript("Bridge"),
-  let mean = bridge?.objectForKeyedSubscript("mean")
+  let meanFunction = bridge?.objectForKeyedSubscript("mean")
 else {
   throw JavaScriptBridgeError.failed
 }
 ```
 
-JavaScript の関数が取得できたら、その関数に引数を与えて実行します。注意点としては、戻り値は JSValue [^JSValue] という何にでも成れる型なので、型安全に慣れている人には注意しましょう。
+JavaScript の関数オブジェクトが取得できたら、その関数に引数を与えて実行します。注意点としては、戻り値は JSValue [^JSValue] という何にでも成れるという自由度がある型です。日頃は Swift で開発していて型安全に慣れている方は十分に注意しましょう。
 
 [^JSValue]: https://developer.apple.com/documentation/javascriptcore/jsvalue
 
 ```swift
 func mean(_ args: [Double]) -> Double {
-  let result = mean.call(withArguments: [args])
-  return result.toDouble()
+  let value = meanFunction.call(withArguments: [args])
+  return value.toDouble()
 }
 ```
 
 ### エラーハンドリング
 
-Swift と同時に JavaScript を利用するので、エラーは何が原因で起こったのか分かりづらいです。エラーハンドリングは確実に行いましょう。特に JavaScript のバンドルファイルを埋め込んだ直後だと、iOS 側の埋め込むコードに問題があるのか、JavaScript のバンドルファイル自体に問題があるのかが分からず混乱します。エラーを頼りに原因を特定して、コードを修正しましょう。
+Swift と同時に JavaScript を利用するので、エラーは何が原因で起こったのか分かりづらいです。そこでエラーハンドリングは確実に行いましょう。特に JavaScript のバンドルファイルを埋め込んだ直後だとエラー原因の候補が多くて、特定は大変です。iOS 側の埋め込むコードに問題があるのか、JavaScript のブリッジ関数またはバンドルファイルの作成過程に問題があるのか、要因が多くて混乱します。エラーを頼りにして原因を特定して、問題解決しましょう。
 
 エラーハンドリングは context.exceptionHandler にクロージャを設定します。これで JavaScript 由来のエラーが起こった場合に、そのエラーを検知できます。
 
@@ -248,24 +248,24 @@ context.exceptionHandler = { context, error in
 }
 ```
 
-このエラーハンドリングはエラーを漏れなく検知できるので便利です。しかしながら、特定箇所のエラーを検知したい場合は不向きです。個別にエラーを取得したい場合は context を何か実行するたびに exception を調べます。先ほどの mean 関数は次のように書き直されます。また、Swift 側の関数にもテストを忘れずに書いて、動作を確認しましょう。
+このエラーハンドリングはエラーを漏れなく検知できるので便利です。しかしながら、特定箇所のエラーを検知したい場合は不向きです。個別にエラーを取得したい場合は context を実行するたびに exception を調べます。先ほどの mean 関数は次のようになります。
 
 ```swift
-// エラーが起こったら例外を投げるように修正された
+// JavaScript の例外が発生したら、Swift の例外を投げるように修正した
 func mean(_ args: [Double]) throws -> Double {
-  let result = mean.call(withArguments: [args])
+  let value = meanFunction.call(withArguments: [args])
   if let exception = context.exception {
     let message = exception.toString() ?? ""
     context.exception = nil // 他の処理で誤検知されないようにクリアする
     throw JavaScriptBridgeError.exception(message: message)
   }
-  return result.toDouble()
+  return value.toDouble()
 }
 ```
 
-何かの処理実行のたびに、このエラーハンドリングを行うのは正直面倒ですよね。基本は context.exceptionHandler でエラーを検知して、必要なところだけ個別に検知しようと考えることでしょう。しかしながら、これらは排他的に機能します。両方は共存できません。どちらかのみを選択することになります。
+何かの処理実行のたびに、このエラー処理のコードを毎回書くのは正直面倒ですよね。基本は context.exceptionHandler でエラーを検知して、必要なところだけ個別に検知しようと考えることでしょう。しかしながら、これらは排他的に機能します。両方は共存できません。どちらかのみを選択することになります。
 
-私が勧めるのは、バンドルファイルを導入して正しく動作するか検証する初期フェーズであれば context.exceptionHandler を利用しましょう。最初はトライ＆エラーで色々試すことが多いので、エラーを漏れなく検知するのが優先されるでしょう。そして、ある程度開発が進んで動作が安定したら、アプリで実際に利用される関数の個別エラー処理に移行して、アプリ本体への安全性を高めましょう。
+私が勧めるのは、バンドルファイルを導入して正しく動作するか検証する初期フェーズであれば context.exceptionHandler を利用しましょう。最初はトライ＆エラーで色々試すことが多いので、エラーを漏れなく検知するのが優先されるでしょう。そして、ある程度開発が進んで動作が安定したら、アプリで実際に利用される関数の個別エラー処理に移行して、アプリ本体への安全性を高めましょう。iOS 側もテストコードを忘れずに書きましょう。
 
 別アプローチとしては context の処理を行った際に、その戻り値が nil ならエラーとして扱う方法もあります。ただし、エラーメッセージは取得できません。対象の処理に合わせて、エラーの種類を個別に設定して、開発者側でエラー原因をハンドリングしましょう。
 
