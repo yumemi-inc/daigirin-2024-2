@@ -15,13 +15,13 @@ class: content
 :::
 -->
 
-iOS は Swift、Android は Kotlin を利用して、モバイルアプリを開発してきました。さらに今は Flutter、React Native そして KMP などマルチプラットフォーム技術を利用して開発する手段も一般的になってきました。
+iOS は Swift、Android は Kotlin を利用して、モバイルアプリを開発してきました。さらに昨今は Flutter、React Native そして KMP などマルチプラットフォーム技術を利用して開発する手段も一般的になりました。
 
-本記事はそれらを利用せずに、マルチプラットフォームに挑戦します。iOS および Android で利用できるプログラミング言語には C++ や JavaScript があります。今回は iOS アプリ開発の視点から JavaScript を本当に導入できるのか、その使い心地はどうなのかを検証します。
+本記事はマルチプラットフォームを、それらを利用せずに、挑戦します。iOS および Android で利用できるプログラミング言語には C++ や JavaScript があります。今回は iOS アプリ開発の視点から JavaScript を本当に導入できるのか、その使い心地はどうなのかを検証します。
 
 開発環境は MacBook Pro 14 インチ 2021、Apple M1 Pro、macOS Sonoma 14.6.1 を用いて、Xcode 15.4 で開発しました。
 
-本記事は、勉強会 [YUMEMI.grow Mobile #13](https://yumemi.connpass.com/event/317381/) [^ygm-13] で発表した内容 [^speakerdeck] および [iOSDC Japan 2024](https://iosdc.jp/2024/) [^iosdc-2024] に寄稿した記事 [^iosdc-2024-pamphlet] の一部を底本として、加筆・訂正を行なったものになります。
+なお、本記事は [YUMEMI.grow Mobile #13](https://yumemi.connpass.com/event/317381/) [^ygm-13] で発表した内容 [^speakerdeck] および [iOSDC Japan 2024](https://iosdc.jp/2024/) [^iosdc-2024] に寄稿した記事 [^iosdc-2024-pamphlet] の一部を底本として、加筆・訂正を行なったものになります。
 
 [^ygm-13]: <https://yumemi.connpass.com/event/317381/>
 [^speakerdeck]: <https://speakerdeck.com/mitsuharu/2024-05-17-javascript-multiplatform>
@@ -38,9 +38,9 @@ iOS は Swift、Android は Kotlin を利用して、モバイルアプリを開
 本記事に記載される製品の名称は、各社の商標または登録商標です。本文中では、™、® などのマークは省略しています。
 -->
 
-## JavaScript ライブラリを準備する
+## JavaScript ライブラリを導入する
 
-今回の例として [just-mean](https://www.npmjs.com/package/just-mean) [^just-mean] というライブラリを iOS アプリ開発のプロジェクトへの導入を試みます。なお、この [just](https://github.com/angus-c/just) [^just] は JavaScript の定番ライブラリ [lodash](https://www.npmjs.com/package/lodash) [^lodash] の代替候補の１つとされているライブラリです。ライブラリごとに機能を分けているので、軽量で他ライブラリへの依存も少ないという利点があります。今回の例として、最適なライブラリです。
+今回の例として [just-mean](https://www.npmjs.com/package/just-mean) [^just-mean] というライブラリを iOS アプリ開発のプロジェクトに導入します。なお、この [just](https://github.com/angus-c/just) [^just] は JavaScript の定番ライブラリ [lodash](https://www.npmjs.com/package/lodash) [^lodash] の代替候補の１つとされているライブラリです。ライブラリごとに機能を分けているので、軽量で他ライブラリへの依存も少ないという利点があります。今回の例として、最適なライブラリです。
 
 [^just-mean]: https://www.npmjs.com/package/just-mean
 [^just]: https://github.com/angus-c/just
@@ -48,15 +48,17 @@ iOS は Swift、Android は Kotlin を利用して、モバイルアプリを開
 
 ## バンドルファイルの作成
 
-JavaScript ライブラリはファイル構成や他ライブラリへの依存性の問題で、そのままで iOS のプロジェクトに組み込むことは難しいです。たとえば、JavaScript のプロジェクトはディレクトリで構造化されるので hogehoge/index.js や piyopiyo/index.js といった同名ファイルが頻繁に存在します。そのまま Xcode のプロジェクトに追加すると問題になります。そこで、読み込みやすい形、バンドルファイルを作成します。
+JavaScript ライブラリはファイル構成や他ライブラリへの依存性の問題で、そのままを iOS のプロジェクトに組み込むことは難しいです。たとえば、JavaScript のプロジェクトはディレクトリで構造化されるので hogehoge/index.js や piyopiyo/index.js といった同名ファイルが頻繁に存在します。そのまま Xcode のプロジェクトに追加すると問題になります。そこで、読み込みやすい形、バンドルファイルを作成します。
 
-では最初に、利用するライブラリ just-mean を手元にダウンロードします。今回、パッケージマネージャに yarn を採用しました。
+最初に just-mean を用意します。今回はパッケージマネージャに yarn [^yarn] を採用しました。
+
+[^yarn]: <https://yarnpkg.com/>
 
 ```shell
 % yarn add just-mean
 ```
 
-次に JavaScript のブリッジとなるクラス Bridge で just-mean の関数を定義します。ここで JavaScript ではなく、TypeScript で記述しています。
+次に JavaScript のブリッジとなるクラス Bridge で just-mean の関数を定義します。iOS と JavaScript で利用できるデータ型には制限があるので、ブリッジ関数で調整しましょう。ここで、次のコードは JavaScript ではなく、TypeScript で記述しています。
 
 [^webpack]: <https://webpack.js.org/>
 
@@ -70,7 +72,7 @@ export class Bridge {
 }
 ```
 
-ここで、ブリッジファイルのテストをお勧めします。今回は jest を利用して、次のようなテストコード（一部抜粋）を追加しました。
+ここで、テストを書きましょう。問題発生時に原因特定（iOS か JavaScript）が難しくなるので、ブリッジ関数を保証します。今回は jest で次のようなテストコード（一部）を書きました。
 
 ```typescript
 import { Bridge } from './index';
@@ -168,8 +170,8 @@ module.exports = {
 ```javascript
 resolve: {
   fallback: {
-    "fuga": false,
-    "hogera": ""
+    "function-foo": false,
+    "function-bar": ""
   }
 }
 ```
