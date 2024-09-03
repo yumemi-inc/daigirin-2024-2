@@ -40,7 +40,7 @@ class: content
 
 ## JavaScript ライブラリを導入する
 
-今回の例として [just-mean](https://www.npmjs.com/package/just-mean) [^just-mean] というライブラリを iOS アプリ開発のプロジェクトに導入します。なお、この [just](https://github.com/angus-c/just) [^just] は JavaScript の定番ライブラリ [lodash](https://www.npmjs.com/package/lodash) [^lodash] の代替候補の１つとされているライブラリです。ライブラリごとに機能を分けているので、軽量で他ライブラリへの依存も少ないという利点があります。今回の例として、最適なライブラリです。
+今回の例として [just-mean](https://www.npmjs.com/package/just-mean) [^just-mean] というライブラリを iOS アプリ開発のプロジェクトに導入します。なお、この [just](https://github.com/angus-c/just) [^just] は JavaScript の定番ライブラリ [lodash](https://www.npmjs.com/package/lodash) [^lodash] の代替候補の１つとされているライブラリです。ライブラリごとに機能を分けているので、軽量で他ライブラリへの依存も少ないという利点があります。取り上げる例として、最適なライブラリです。
 
 [^just-mean]: https://www.npmjs.com/package/just-mean
 [^just]: https://github.com/angus-c/just
@@ -58,7 +58,7 @@ JavaScript ライブラリはファイル構成や他ライブラリへの依存
 % yarn add just-mean
 ```
 
-次に JavaScript のブリッジとなるクラス Bridge で just-mean の関数を定義します。iOS と JavaScript で利用できるデータ型には制限があるので、ブリッジ関数で調整しましょう。ここで、次のコードは JavaScript ではなく、TypeScript で記述しています。
+次に JavaScript のブリッジとなるクラス Bridge で just-mean の関数を定義します。iOS と JavaScript でやり取りできるデータ型には制限があるので、ブリッジ関数で調整しましょう。なお、次のコードは JavaScript ではなく TypeScript で記述しています。
 
 [^webpack]: <https://webpack.js.org/>
 
@@ -72,7 +72,7 @@ export class Bridge {
 }
 ```
 
-ここで、テストを書きましょう。問題発生時に原因特定（iOS か JavaScript）が難しくなるので、ブリッジ関数を保証します。今回は jest で次のようなテストコード（一部）を書きました。
+ここで、テストを書きましょう。問題発生時に原因特定（iOS か JavaScript）が難しいため、ブリッジ関数の動作を保証します。今回は jest で次のテストコード（一部）を書きました。
 
 ```typescript
 import { Bridge } from './index';
