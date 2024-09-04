@@ -17,11 +17,9 @@ class: content
 
 私たちは Swift を利用して iOS、Kotlin を利用して Android のモバイルアプリを開発してきました。さらに昨今は Flutter、React Native そして KMP などマルチプラットフォーム技術を利用して開発する手段も一般的になりました。
 
-今回はマルチプラットフォーム開発を、それらを利用せずに、挑戦します。iOS および Android で利用できるプログラミング言語には C++ や JavaScript があります。iOS アプリ開発の視点から JavaScript を本当に導入できるのか、その使い心地はどうなのかを検証します。
+今回はマルチプラットフォーム開発を、それらを利用せずに、挑戦します。iOS および Android で利用できるプログラミング言語には C++ や JavaScript があります。iOS アプリ開発の視点から Vanilla JavaScript を本当に導入できるのか、その使い心地はどうなのかを検証します。
 
-開発環境は MacBook Pro 14 インチ 2021、Apple M1 Pro、macOS Sonoma 14.6.1 を用いて、Xcode 15.4 で開発しました。
-
-本記事は [YUMEMI.grow Mobile #13](https://yumemi.connpass.com/event/317381/) [^ygm-13] で発表した内容 [^speakerdeck] および [iOSDC Japan 2024](https://iosdc.jp/2024/) [^iosdc-2024] に寄稿した記事 [^iosdc-2024-pamphlet] の一部を底本として、加筆・訂正を行なったものになります。
+本記事は [YUMEMI.grow Mobile #13](https://yumemi.connpass.com/event/317381/) [^ygm-13] で発表した内容 [^speakerdeck] および [iOSDC Japan 2024](https://iosdc.jp/2024/) [^iosdc-2024] に寄稿した記事 [^iosdc-2024-pamphlet] の一部を底本として、加筆・訂正しました。開発環境は MacBook Pro 14 インチ 2021、Apple M1 Pro、macOS Sonoma 14.6.1 を用いて、Xcode 15.4 で開発しました。また、本記事の Vanilla は何もフレームワークを導入していない素の状態を指します。
 
 [^ygm-13]: <https://yumemi.connpass.com/event/317381/>
 [^speakerdeck]: <https://speakerdeck.com/mitsuharu/2024-05-17-javascript-multiplatform>
