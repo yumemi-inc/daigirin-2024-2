@@ -38,7 +38,7 @@ class: content
 
 ## JavaScript ライブラリを導入する
 
-今回の例として [just-mean](https://www.npmjs.com/package/just-mean) [^just-mean] というライブラリを iOS アプリ開発のプロジェクトに導入します。なお、この [just](https://github.com/angus-c/just) [^just] は JavaScript の定番ライブラリ [lodash](https://www.npmjs.com/package/lodash) [^lodash] の代替候補の１つとされているライブラリです。ライブラリごとに機能を分けているので、軽量で他ライブラリへの依存も少ないという利点があります。取り上げる例として、最適なライブラリです。
+今回の例として [just-mean](https://www.npmjs.com/package/just-mean) [^just-mean] という平均値を計算するライブラリを iOS アプリ開発のプロジェクトに導入します。この [just](https://github.com/angus-c/just) [^just] は JavaScript の定番ライブラリ [lodash](https://www.npmjs.com/package/lodash) [^lodash] の代替候補の１つとされているライブラリです。ライブラリごとに機能を分けているので、軽量で他ライブラリへの依存も少ないという利点があります。取り上げる例として、最適なライブラリです。
 
 [^just-mean]: https://www.npmjs.com/package/just-mean
 [^just]: https://github.com/angus-c/just
