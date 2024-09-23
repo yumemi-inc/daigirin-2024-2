@@ -11,11 +11,15 @@ class: content
 
 https://docs.aws.amazon.com/codebuild/latest/userguide/action-runner.html に記載のある、AWS CodeBuild を GitHub Actions の Self-hosted Runner として使用可能な機能を試します。
 
-2024-09-20 時点での内容です。最新情報は上記ドキュメントを参照ください。実際に使用したいとなったら自身の環境で動かしてみてください。
+2024-09-20 時点での内容です。最新情報は上記ドキュメントを参照ください。
+実際に使用したいとなったら自身の環境で動作確認してください。
 
 ## 基本的な使い方
 
 AWS CodeBuild 上で GitHub に接続設定したプロジェクトを用意し、その名前を GitHub Actions の yaml の `runs-on` に記載することで動作します。
+
+### Terraformでの作成
+
 Terraform で表すと次のような設定です。 CodeBuild の名前は "github_runner" としています。
 
 ```terraform
@@ -74,9 +78,34 @@ resource "aws_codebuild_webhook" "main" {
 Self-hosted Runner として動かすためには、 CodeBuild の Webhook で `WORKFLOW_JOB_QUEUED` のイベントを受け取るように設定します。
 この設定のあるプロジェクトが、 Self-hosted Runner として認識されるようです。
 
+コンソールからの作成では Webhook の設定を遅らせることができますが、AWS Provder 5.68.0 時点では Terraform でその設定はできません。
+[API](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_CreateWebhook.html#CodeBuild-CreateWebhook-request-manualCreation)側にその設定はあるため、実装される可能性はあります。
+
 buildspec については、 Self-hosted Runner として稼働させる場合、初期設定では無視されます。そのため適当な buildspec を入れるようにしています。リポジトリ内の buildspec.yaml を使用する設定になっていても問題ありません。
 コンソールから作成した場合にはリポジトリ内の buildspec.yaml を使用する設定になっているようです。
 後述の設定を GitHub Actions の yaml に設定することで buildspec 内のコマンドの実行が可能です。
+
+### コンソールでの作成
+
+コンソールでの設定内容は次の画像のようになります。
+
+ソースプロバイダには GitHub を指定します。
+
+![create codebuild](./images_k_kojima/00-01-create.png)
+
+Webhook の設定は次のとおりです。
+「コードの変更がこのリポジトリにプッシュされるたびに再構築する」はチェックが必要です。
+追加設定内の、「このリポジトリのウェブフックを GitHub コンソールで手動で作成します」は任意です。
+チェックを入れると Webhook を自動で作成せず、設定に必要な URL と Secret の値を作成後に表示します。
+チェックなしでは AWS に設定された認証情報を使用して AWS が Webhook を作成します。
+
+![create codebuild](./images_k_kojima/00-02-create.png)
+
+Buildspec の設定は任意です。共通して AWS 側で行いたい処理がある際に使用します。
+
+![create codebuild](./images_k_kojima/00-03-create.png)
+
+### GitHub Actionsでの設定
 
 上記で作成した、 `github_runner` の名前のプロジェクトを使用するために、 GitHub Actions の yaml に次のように記述します。
 
