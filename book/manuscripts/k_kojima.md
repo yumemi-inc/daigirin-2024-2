@@ -94,8 +94,10 @@ buildspec については、 Self-hosted Runner として稼働させる場合�
 ![create codebuild](./images_k_kojima/00-01-create.png)
 
 Webhook の設定は次のとおりです。
+<!-- textlint-disable -->
 「コードの変更がこのリポジトリにプッシュされるたびに再構築する」はチェックが必要です。
 追加設定内の、「このリポジトリのウェブフックを GitHub コンソールで手動で作成します」は任意です。
+<!-- textlint-enable -->
 チェックを入れると Webhook を自動で作成せず、設定に必要な URL と Secret の値を作成後に表示します。
 チェックなしでは AWS に設定された認証情報を使用して AWS が Webhook を作成します。
 
