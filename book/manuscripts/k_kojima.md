@@ -139,7 +139,7 @@ Lambda のイメージには、一部 GitHub Actions で動作させるのが難
 設定できる内容は[こちらのドキュメント](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-github-action-runners-update-yaml.images.html)に記載があります。
 `image:<Environment type>-<Image identifier>` のフォーマットになります。
 
-たとえ、EC2 の Ubuntu の CodeBuild を使用する際には次の記述をします。
+たとえば、EC2 の Ubuntu の CodeBuild を使用する際には次の記述をします。
 
 ```yaml
 runs-on:
@@ -172,7 +172,7 @@ Lambda で使用する際には ECR のイメージに限定されます。
 ```json
 {"message":"Invalid input: cannot use a CodeBuild curated image with imagePullCredentialsType SERVICE_ROLE"}
 ```
-CI が起動せずずっと waiting の状態になります。
+CI が起動せず、ずっと waiting の状態になります。
 
 ### インスタンスタイプの変更
 
@@ -234,6 +234,8 @@ runs-on: codebuild-<project-name>-${{ github.run_id }}-${{ github.run_attempt }}
 
 build ステップに関しては GitHub Actions の実行に使用されるため設定をしても動作しません。
 
+install ステップ、pre_build でコマンドの実行に失敗すると build ステップが実行されず GitHub Actions も実行されません。
+
 ### Buildspecを使用するための設定
 
 Buildspec を使用するためには、CodeBuild に Buildspec の内容やファイルを指定します。
@@ -275,13 +277,14 @@ Terraform では buildspec の設定が必須になっているのでそちら�
 ```
 
 こちらの yaml ファイルでは主に次のような動作をします。
-EC2 で動作する CodeBuild では `gh` コマンドがインストールされています。
-しかし Lambda で動作する CodeBuild ではインストールされていないため、インストールする必要があります。
 
 - システムのアーキテクチャを判断し、ARCH 変数に適切な値（arm64 または amd64）を設定
 - GitHub CLI の最新リリース URL を取得
 - GitHub CLI をダウンロードし、解凍
 - /tmp/codebuild/bin ディレクトリを作成し、その中に GitHub CLI のバイナリへのシンボリックリンクを作成
+
+EC2 で動作する CodeBuild のイメージでは `gh` コマンドがインストールされています。
+しかし Lambda で動作する CodeBuild のイメージではインストールされていないため、インストールする必要があります。
 
 buildspec ファイルを使用するように設定すると、該当のリポジトリの buildspec ファイルが使用されます。
 それによりリポジトリごとに実行内容を変更できます。
