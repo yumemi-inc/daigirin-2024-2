@@ -9,14 +9,14 @@ class: content
 
 # GitHub ActionsのSelf-hosted RunnerをAWS CodeBuildで動かす
 
-https://docs.aws.amazon.com/codebuild/latest/userguide/action-runner.html に記載のある、AWS CodeBuildをGitHub ActionsのSelf-hosted Runnerとして使用可能な機能を試します。
+https://docs.aws.amazon.com/codebuild/latest/userguide/action-runner.html に記載のある、AWS CodeBuild を GitHub Actions の Self-hosted Runner として使用可能な機能を試します。
 
-2024-09-20時点での内容です。最新情報は上記ドキュメントを参照ください。また実際に動かしてみるのが一番わかると思います。 普段はGitHub ActionsをGitHub-hosted Runnerで動かしているので、CodeBuildにはあまり慣れていません。CodeBuild使っていれば常識的な部分もあるかもしれません。
+2024-09-20 時点での内容です。最新情報は上記ドキュメントを参照ください。実際に使用したいとなったら自身の環境で動かしてみてください。
 
 ## 基本的な使い方
 
-AWS CodeBuild上でGitHubに接続設定したプロジェクトを用意し、その名前をGitHub Actionsのyamlの `runs-on` に記載することで動作します。
-Terraformで表すと以下のような設定です。CodeBuildの名前は"github_runner"としています。
+AWS CodeBuild 上で GitHub に接続設定したプロジェクトを用意し、その名前を GitHub Actions の yaml の `runs-on` に記載することで動作します。
+Terraform で表すと次のような設定です。 CodeBuild の名前は "github_runner" としています。
 
 ```terraform
 resource "aws_codebuild_project" "main" {
@@ -71,14 +71,14 @@ resource "aws_codebuild_webhook" "main" {
 }
 ```
 
-Self-hosted Runnerとして動かすためには、CodeBuildのWebhookで `WORKFLOW_JOB_QUEUED` のイベントを受け取るように設定します。
-この設定があるプロジェクトがSelf-hosted Runnerとして認識されるようです。
+Self-hosted Runner として動かすためには、 CodeBuild の Webhook で `WORKFLOW_JOB_QUEUED` のイベントを受け取るように設定します。
+この設定のあるプロジェクトが、 Self-hosted Runner として認識されるようです。
 
-buildspecについては、Self-hosted Runnerとして稼働させる場合、初期設定では無視されます。そのため適当なbuildspecを入れるようにしています。リポジトリ内のbuildspec.yamlを使用する設定になっていても問題ありません。
-コンソールから作成した場合にはリポジトリ内のbuildspec.yamlを使用する設定になっているようです。
-後述の設定をGitHub Actionsのyamlに設定することでbuildspec内のコマンドの実行が可能です。
+buildspec については、 Self-hosted Runner として稼働させる場合、初期設定では無視されます。そのため適当な buildspec を入れるようにしています。リポジトリ内の buildspec.yaml を使用する設定になっていても問題ありません。
+コンソールから作成した場合にはリポジトリ内の buildspec.yaml を使用する設定になっているようです。
+後述の設定を GitHub Actions の yaml に設定することで buildspec 内のコマンドの実行が可能です。
 
-上記で作成した、 `github_runner` の名前のプロジェクトを使用するために、 GitHub Actionsのyamlに以下のように記述します。
+上記で作成した、 `github_runner` の名前のプロジェクトを使用するために、 GitHub Actions の yaml に次のように記述します。
 
 ```yaml
 jobs:
@@ -86,7 +86,7 @@ jobs:
     runs-on: codebuild-github_runner-${{ github.run_id }}-${{ github.run_attempt }}
 ```
 
-または
+次の書き方も可能です。
 
 ```yaml
 jobs:
@@ -95,12 +95,15 @@ jobs:
       - codebuild-github_runner-${{ github.run_id }}-${{ github.run_attempt }}
 ```
 
-詳しくは[ドキュメントに記載](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-github-action-runners.html#sample-github-action-runners-update-yaml)がありますが、 `codebuild-<プロジェクト名>-${{ github.run_id }}-${{ github.run_attempt }}` と記載すると動きます。
-この記載ではCodeBuildに設定されているランタイムで動作します。上の例ではx64のnodejs20がLambda(2GB)上で動作します。
+詳しくは[ドキュメントに記載](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-github-action-runners.html#sample-github-action-runners-update-yaml)があります。
+`codebuild-<プロジェクト名>-${{ github.run_id }}-${{ github.run_attempt }}` のように記載すると動きます。
+この記載では CodeBuild に設定されているランタイムで動作します。上の例では x64 の nod.js 20 が Lambda（2GB）上で動作します。
 
-GitHub ActionsからAWSにアクセスする際にはOIDCを使用されるかと思いますが、OIDCによる接続は問題なく動作します。
-例えば以下のjobであれば1回目の `aws sts get-caller-identity` ではCodeBuild自身のロールが、Assume Roleした後の2回目の呼び出しではAssume Roleした先のロールが表示されることを確認しました。
-CodeBuild実行ロールとAssume Roleするロールに特別な設定は不要で、GitHub-hosted Runnerで実行する時と同じように使えます。
+GitHub Actions から AWS にアクセスする際には OIDC による認証を使用することが多いですが、OIDC による接続は問題なく動作します。
+次の job は OIDC による認証をする前としたあとでどのロールが使用されているか調べています。
+1 回目の `aws sts get-caller-identity` で CodeBuild 自身のロールが表示されます。
+Assume Role した後の 2 回目の呼び出しでは Assume Role した先のロールが表示されることを確認しました。
+CodeBuild 実行ロールと Assume Role するロールに特別な設定は不要で、GitHub-hosted Runner で実行する時と同じように使えます。
 
 ```yaml
 oidc:
@@ -127,16 +130,16 @@ https://docs.aws.amazon.com/codebuild/latest/userguide/sample-github-action-runn
 
 ### イメージの変更
 
-CodeBuildを実行する環境を変更できます。
-EC2上で動かすか、Lambdaで動かすかも変更可能です。
-x64のインスタンスか、arm64にするかもここで選択できます。
+CodeBuild を実行する環境を変更できます。
+EC2 上で動かすか、Lambda で動かすかも変更可能です。
+x64 のインスタンスか、arm64 にするかもここで選択できます。
 
-Lambdaのイメージには、一部GitHub Actionsで動作させるのが難しいイメージもあります。注意点の項目を参照してください。
+Lambda のイメージには、一部 GitHub Actions で動作させるのが難しいイメージもあります。注意点の項目を参照してください。
 
 設定できる内容は[こちらのドキュメント](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-github-action-runners-update-yaml.images.html)に記載があります。
 `image:<Environment type>-<Image identifier>` のフォーマットになります。
 
-例えば、EC2のUbuntuのCodeBuildを使用する際には以下の記述をします。
+たとえ、EC2 の Ubuntu の CodeBuild を使用する際には次の記述をします。
 
 ```yaml
 runs-on:
@@ -144,7 +147,7 @@ runs-on:
   - image:ubuntu-7.0
 ```
 
-Lambdaのarm64で、node20の環境では以下を指定します。
+Lambda の arm64 で、node20 の環境では以下を指定します。
 
 ```yaml
 runs-on:
@@ -152,30 +155,32 @@ runs-on:
   - image:arm-lambda-nodejs20
 ```
 
-何も指定しなかった場合にはCodeBuildで設定されている環境が使用されます。
+何も指定しなかった場合には CodeBuild で設定されている環境が使用されます。
 
 #### カスタムイメージの使用
 
-CodeBuildではEC2、Lambdaともにカスタムイメージを設定できます。
-このカスタムイメージでもGitHub Self-hosted Runnerを動かすことが可能です。
+CodeBuild では EC2、Lambda ともにカスタムイメージを設定できます。
+このカスタムイメージでも GitHub Self-hosted Runner を動かすことが可能です。
 
-制約として、curlかwgetがイメージ内に必要になります。 `ubuntu:jammy` のようなイメージを使用してしまうとRunnerのインストールができずに実行が失敗します。
+制約として、curl か wget がイメージ内に必須です。
+`ubuntu:jammy` のようなイメージを使用してしまうと Runner のインストールができずに実行が失敗します。
 `node:20` のようなイメージであれば問題ありません。
-Lambdaで使用する際にはECRにあるイメージに限定されますが、[Amazon ECR Public Gallery](https://gallery.ecr.aws/)のdocker/library配下に基本的なイメージがあるのでそこまで困ることはないと思います。
+Lambda で使用する際には ECR のイメージに限定されます。
+[Amazon ECR Public Gallery](https://gallery.ecr.aws/)の docker/library 配下に基本的なイメージがあるので、そこまで困ることはありません。
 
-この場合上記のイメージの変更はできません。Webhookで以下のエラーが出ます。
+この場合上記のイメージの変更はできません。Webhook で次のエラーが出ます。
 ```json
 {"message":"Invalid input: cannot use a CodeBuild curated image with imagePullCredentialsType SERVICE_ROLE"}
 ```
-CIが起動せずずっとwaitingの状態になります。
+CI が起動せずずっと waiting の状態になります。
 
 ### インスタンスタイプの変更
 
-CodeBuildに割り当てるスペックを変更できます。
+CodeBuild に割り当てるスペックを変更できます。
 [こちらのドキュメント](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html#environment.types)に記載のあるスペックから使用したいものを選び、設定します。
 使用できる種類や設定するパラメータについては[こちらのドキュメント](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-github-action-runners-update-yaml.images.html)に記載があります。
 
-EC2のarmの、最も小さいサイズを指定する際には以下のようになります。
+EC2 の arm の、もっとも小さいサイズを指定する際には次のようになります。
 
 ```yaml
 runs-on:
@@ -184,7 +189,7 @@ runs-on:
   - instance-size:small
 ```
 
-x64のLambda(node20)で、8GBのメモリを指定する場合には以下のようになります。
+x64 の Lambda（node20）で、8GB のメモリを指定する場合には次のようになります。
 
 ```yaml
 runs-on:
@@ -195,14 +200,14 @@ runs-on:
 
 ### フリートの設定
 
-`fleet:` を設定することで、CodeBuildを実行するfleetを指定できます。ここでの説明は省略します。
+`fleet:` を設定することで、CodeBuild を実行する fleet を指定できます。ここでの説明は省略します。
 
 ### buildspecを使用する設定
 
-`buildspec-override:true` を設定することでbuildspecのコマンドを実行できるようになります。
+`buildspec-override:true` を設定することで buildspec のコマンドを実行できるようになります。
 詳細は別の項で触れます。
 
-使用する場合には以下のような設定になります。
+使用する場合には次のような設定になります。
 
 ```yaml
 runs-on:
@@ -212,7 +217,7 @@ runs-on:
 
 ### 古い書き方
 
-2024/05時点では以下のような記述がされていました。現在も動作することは確認しましたが、"legacy"とつけられているため上記の記法を採用する方がよいと思われます。
+2024/05 時点では次のような記述がされていました。現在も動作することは確認しましたが、"legacy"とつけられているため上記の記法を採用する方がよいと思われます。
 
 ```yaml
 runs-on: codebuild-<project-name>-${{ github.run_id }}-${{ github.run_attempt }}-<environment-type>-<image-identifier>-<instance-size>
@@ -220,25 +225,25 @@ runs-on: codebuild-<project-name>-${{ github.run_id }}-${{ github.run_attempt }}
 
 ## Buildspecのサポート
 
-リリース時点ではBuildspecのサポートはありませんでしたが、現時点ではサポートされているようです。
-下記のPhaseがサポートされています。
+リリース時点では Buildspec のサポートはありませんでしたが、現時点ではサポートされているようです。
+次の Phase がサポートされています。
 
 - install
 - pre_build
 - post_build
 
-buildステップに関してはGitHub Actionsの実行に使用されるため設定をしても動作しません。
+build ステップに関しては GitHub Actions の実行に使用されるため設定をしても動作しません。
 
 ### Buildspecを使用するための設定
 
-Buildspecを使用するためには、CodeBuildのBuildspecの指定を行います。
-コンソールでは以下の画像のように設定できます。
+Buildspec を使用するためには、CodeBuild に Buildspec の内容やファイルを指定します。
+コンソールでは次の画像のように設定できます。
 
 ![buildspec configuration](./images_k_kojima/01-buildspec.png)
 
-Terraformではbuildspecの設定が必須になっているのでそちらで設定できます。
+Terraform では buildspec の設定が必須になっているのでそちらで設定できます。
 
-今回は、CodeBuild側でBuildspecの指定を行いました。
+今回は、CodeBuild 側で Buildspec を指定しました。
 
 ```yaml
 "env":
@@ -269,23 +274,22 @@ Terraformではbuildspecの設定が必須になっているのでそちらで�
 "version": "0.2"
 ```
 
-こちらのyamlファイルでは主に以下のような設定を行っています。
-EC2で動作するCodeBuildでは `gh` コマンドがインストールされていますが、Lambdaで動作するCodeBuildではインストールされていないため、インストールする必要があります。そのための処理です。
+こちらの yaml ファイルでは主に次のような動作をします。
+EC2 で動作する CodeBuild では `gh` コマンドがインストールされています。
+しかし Lambda で動作する CodeBuild ではインストールされていないため、インストールする必要があります。
 
-- システムのアーキテクチャを判断し、ARCH 変数に適切な値（arm64またはamd64）を設定します。
-- GitHub CLIの最新リリースURLを取得します。
-- GitHub CLIをダウンロードし、解凍します。
-- /tmp/codebuild/bin ディレクトリを作成し、GitHub CLIのバイナリへのシンボリックリンクを作成します。
+- システムのアーキテクチャを判断し、ARCH 変数に適切な値（arm64 または amd64）を設定
+- GitHub CLI の最新リリース URL を取得
+- GitHub CLI をダウンロードし、解凍
+- /tmp/codebuild/bin ディレクトリを作成し、その中に GitHub CLI のバイナリへのシンボリックリンクを作成
 
-buildspecファイルを使用するようにすると、該当のリポジトリのbuildspecファイルが使用されます。
-それによりリポジトリごとに実行内容を変更できますが、ある程度の設定はGitHub Actionsのyamlで行っていると思うので必要になることは少なそうです。
-
-TODO: prebuildなどが失敗した際の挙動を書き込む
-TODO: 時間制限について書く
+buildspec ファイルを使用するように設定すると、該当のリポジトリの buildspec ファイルが使用されます。
+それによりリポジトリごとに実行内容を変更できます。
+ある程度の設定は GitHub Actions の yaml で行うはずなので buildspec が必要になることは少なそうです。
 
 ### Workflow 側の設定
 
-Buildspecを使用する場合には、 `runs-on` を適切に設定する必要があります。
+Buildspec を使用する場合には、 `runs-on` を適切に設定する必要があります。
 [こちらのドキュメント](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-github-action-runners.html#sample-github-action-runners-update-yaml)内の、"Run buildspec commands the INSTALL, PRE_BUILD, and POST_BUILD phases" に記載があります。
 
 ```yaml
@@ -301,9 +305,9 @@ runs-on:
 
 ### 実行結果
 
-Buildspecで実行されるコードのログはCodeBuild側に出力されます。GitHub Actionsのログには出力されません。
-以下は上記のBuildspecを使用した場合のログです。最新の `gh` コマンドを取得しています。
-`aws/codebuild/amazonlinux-aarch64-lambda-standard:python3.12` のイメージを使用しているので、 `node` は見つかりません。PATHにPythonのパスが入っています。
+Buildspec で実行されるコードのログは CodeBuild 側に出力されます。GitHub Actions のログには出力されません。
+以下は上記の Buildspec を使用した場合のログです。最新の `gh` コマンドを取得しています。
+`aws/codebuild/amazonlinux-aarch64-lambda-standard:python3.12` のイメージを使用しているので、 `node` は見つかりません。PATH に Python のパスが入っています。
 
 ```
 [Container] 2024/09/20 12:51:53.178315 YAML location is /tmp/codebuild/readonly/buildspec.yml
@@ -342,28 +346,28 @@ Hello
 
 ## OrganizationレベルでのWebhookの設定
 
-リリース時点ではRepositoryレベルでのWebhookの設定しかできませんでした。現状ではOrganizationレベルでのWebhookの設定が可能になっています。
+リリース時点では Repository レベルでの Webhook の設定しかできませんでした。現状では Organization レベルでの Webhook の設定が可能になっています。
 
 https://docs.aws.amazon.com/codebuild/latest/userguide/github-global-organization-webhook-events-console.html
 
 ### コンソールで設定
 
-まずはコンソールでCodeBuildを作成します。
+まずはコンソールで CodeBuild を作成します。
 
 ![organization source](./images_k_kojima/02-org-source.png)
 
-新しく "GitHub スコープウェブフック" が追加されています。こちらを選択すると特別なGitHubリポジトリが設定されます。
+新しく "GitHub スコープウェブフック" が追加されています。こちらを選択すると特別な GitHub リポジトリが設定されます。
 
 ![organization select](./images_k_kojima/03-org-webhook.png)
 
-その後Organizationの設定が可能です。
-CodeBuildの作成段階でOrganizationにWebhookが設定されるため、Webhookを設定できるGitHubアカウントでの認証が事前に必要です。
+その後 Organization の設定が可能です。
+CodeBuild の作成段階で Organization に Webhook が設定されるため、Webhook を設定できる GitHub アカウントでの認証が事前に必要です。
 
-作成後、そのOrganizationに属するリポジトリからCodeBuildでのGitHub Actionsの実行が可能になります。設定項目は通常通り `runs-on` を指定します。
+作成後、その Organization に属するリポジトリから CodeBuild での GitHub Actions の実行が可能になります。設定項目は通常とおり `runs-on` を指定します。
 
 ### Terraformでの設定
 
-Terraformでの設定は以下のようになります。
+Terraform での設定は次のようになります。
 
 ```terraform
 resource "aws_codebuild_project" "main" {
@@ -411,117 +415,117 @@ resource "aws_codebuild_webhook" "main" {
 }
 ```
 
-`CODEBUILD_DEFAULT_WEBHOOK_SOURCE_LOCATION` がOrganizationでの設定をするための特別なリポジトリです。
-こちらの値を `aws_codebuild_project` の `source` の `location` に指定することで、Organization用の設定となります。
+`CODEBUILD_DEFAULT_WEBHOOK_SOURCE_LOCATION` が Organization での設定をするための特別なリポジトリです。
+こちらの値を `aws_codebuild_project` の `source` の `location` に指定することで、Organization 用の設定となります。
 
-`aws_codebuild_webhook` の `scope_configuration` でOrganizationの指定が可能です。
-このTerraformではリポジトリのルートのBuildspecを使用しています。 `runs-on` でBuildspecを使用するようにするとBuildspecの内容に沿ったコードが実行されます。
+`aws_codebuild_webhook` の `scope_configuration` で Organization の指定が可能です。
+この Terraform ではリポジトリのルートの Buildspec を使用しています。 `runs-on` で Buildspec を使用するようにすると Buildspec の内容に沿ったコードが実行されます。
 
 ### 備考
 
-WebhookのFilterを設定が可能です。上記の例では必要最低限の `WORKFLOW_JOB_QUEUED` のみを設定しています。
+Webhook の Filter を設定が可能です。上記の例では必要最低限の `WORKFLOW_JOB_QUEUED` のみを設定しています。
 他にもリポジトリ名の指定ができます。 `WORKFLOW_NAME` でワークフロー名の指定が可能なようです。
 
-これにより、特定のリポジトリ/羽0区フローのみをCodeBuild上で実行することができます。
+これにより、特定のリポジトリ/ワークフローのみを CodeBuild 上で実行できます。
 
 ## 費用
 
-GitHub Hosted Runnerとの料金比較を行います。
-主に、Linuxでの実行を比較します。
-GitHub Actions, AWS CodeBuild, その他の実行環境としてWarpBuildの料金を比較します。
+GitHub Hosted Runner との料金を比較します。
+主に、Linux での実行の比較です。Windows や Mac OS 環境の比較はしません。
+GitHub Actions, AWS CodeBuild, その他の実行環境として WarpBuild の料金を比較します。
 
 ### 参考
 
-- GitHub Actionsの料金
+- GitHub Actions の料金
   - https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions
   - https://docs.github.com/en/actions/using-github-hosted-runners/using-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for--private-repositories
-- AWS CodeBuildの料金
+- AWS CodeBuild の料金
   - https://aws.amazon.com/jp/codebuild/pricing/
-- WarpBuildの料金(比較対象)
+- WarpBuild の料金（比較対象）
   - https://docs.warpbuild.com/cloud-runners
 
 ### 最安コスト
 
-マシンパワーの必要ない簡単なタスクを実行することを想定し、最も低いスペックでの比較です。最安で使用したい場合になります。
+マシンパワーの必要ない簡単なタスクを実行することを想定し、もっとも低いスペックでの比較です。最安で使用したい場合になります。
 
 #### GitHub Actions
 
-デフォルトで使用されるRunnerは2CPU, 7GBメモリになります。これで$0.008/minの料金がかかります。
-分単位であり、1分未満の実行時間は切り上げされます。
+デフォルトで使用される Runner は 2CPU, 7GB メモリになります。これで$0.008/min の料金がかかります。
+分単位であり、1 分未満の実行時間は切り上げされます。
 
-ARMのRunnerでは$0.005/minの料金です。
+ARM の Runner では$0.005/min の料金です。
 
 #### AWS CodeBuild
 
-`us-east-1` での料金です。`ap-northeast-1` では料金が異なるので注意してください。東京のリージョンだとEC2のarm64インスタンスの値段が高くなります。Lambdaの価格は同じです。
+`us-east-1` での料金です。`ap-northeast-1` では料金が異なるので注意してください。東京のリージョンだと EC2 の arm64 インスタンスの値段が高くなります。Lambda の価格は同じです。
 
 - EC2
-  - general1.small: 2vCPU, 3GBメモリで $0.005/min
-  - arm1.small: 2vCPU, 3GBメモリで $0.0034/min
+  - general1.small: 2vCPU, 3GB メモリで $0.005/min
+  - arm1.small: 2vCPU, 3GB メモリで $0.0034/min
 - Lambda
-  - lambda.arm.1GB: 1GBメモリで $0.00001/sec($0.0006/min)
-  - lambda.x86-64.1GB: 1GBメモリで $0.00002/sec($0.0012/min)
-    - ちょうどarm64の2倍の料金です
+  - lambda.arm.1GB: 1GB メモリで $0.00001/sec（$0.0006/min）
+  - lambda.x86-64.1GB: 1GB メモリで $0.00002/sec（$0.0012/min）
+    - ちょうど arm64 の 2 倍
 
-EC2は分単位の課金(1分未満は切り上げ)、Lambdaは秒単位の課金です。
-CodeBuildではrunnerのインストールが必要なため、GitHubに表示されている実行時間よりも長く課金されます。
+EC2 は分単位の課金（1 分未満は切り上げ）、Lambda は秒単位の課金です。
+CodeBuild では runner のインストールが必要なため、GitHub に表示されている実行時間よりも長く課金されます。
 
 #### WarpBuild
 
-使用したことはないので、Web上に載っている料金を使用します。
+使用したことはないので、Web 上に載っている料金を使用します。
 
-- x64(warp-ubuntu-latest-x64-2x): $0.004/min
-- arm64(warp-ubuntu-latest-arm64-2x): $0.003/min
-- arm64(warp-ubuntu-latest-arm64-2x-spot): $0.00225/min
+- x64（warp-Ubuntu-latest-x64-2x）: $0.004/min
+- arm64（warp-Ubuntu-latest-arm64-2x）: $0.003/min
+- arm64（warp-Ubuntu-latest-arm64-2x-spot）: $0.00225/min
 
 ### 比較
 
 使用した時間に対する料金を比較します。
-CodeBuildではrunnerのインストールに1分かかると想定して計算しています。実際には30-40秒程度で完了します。
+CodeBuild では runner のインストールに 1 分かかると想定して計算しています。実際には 30-40 秒程度で完了します。
 
-秒に対する料金は以下のグラフになります。
+秒に対する料金は次のグラフになります。
 
 ![cost per second](./images_k_kojima/04-cost.png)
 
-1分以上の実行時にはGitHub Actionsのx64が最も高くなります。1分未満だとRunnerの準備時間があるためEC2のCodeBuildが最も高いです。
-最も安いのはCodeBuildのLambdaのarm64です。準備時間の課金を含めても最も安くなります。10分かかってもGitHub Actionsのx64の1分の使用量より安くなります。
+1 分以上の実行時には GitHub Actions の x64 がもっとも高くなります。1 分未満だと Runner の準備時間があるため EC2 の CodeBuild がもっとも高いです。
+もっとも安いのは CodeBuild の Lambda の arm64 です。準備時間の課金を含めてももっとも安くなります。10 分かかっても GitHub Actions の x64 の 1 分の使用量より安くなります。
 
-上記の結果より、軽いタスクを実行するのであればCodeBuildのLambdaのarm64を使用するのが最も安くなることがわかりました。Lambdaの制限に引っかからない場合にはLambdaを使用するのがおすすめです。
+上記の結果より、軽いタスクを実行するのであれば CodeBuild の Lambda の arm64 を使用するのがもっとも安くなるとわかりました。Lambda の制限に引っかからない場合には Lambda を使用するのがお勧めです。
 
 ### 4CPUでのコスト
 
 次に、マシンパワーを揃えて比較します。
-Lambdaに関してはメモリに対する指標のみが公開されているため、8GBを選択した状態での比較とします。これで5vCPU相当となるようです。
+Lambda に関してはメモリに対する指標のみが公開されているため、8GB を選択した状態での比較とします。これで 5vCPU 相当となるようです。
 
 - GitHub Actions
-  - 8CPU, 32GBメモリ
+  - 8CPU, 32GB メモリ
     - x64: $0.032/min
     - arm64: $0.02/min
 - AWS CodeBuild
   - EC2
-    - general1.medium: 4vCPU, 7GBメモリで $0.01/min
-    - arm1.medium: 4vCPU, 8GBメモリで $0.007/min
+    - general1.medium: 4vCPU, 7GB メモリで $0.01/min
+    - arm1.medium: 4vCPU, 8GB メモリで $0.007/min
   - Lambda
-    - lambda.arm.8GB: 8GBメモリで $0.00008/sec($0.0048/min)
-    - lambda.x86-64.8GB: 8GBメモリで $0.00016/sec($0.0096/min)
+    - lambda.arm.8GB: 8GB メモリで $0.00008/sec（$0.0048/min）
+    - lambda.x86-64.8GB: 8GB メモリで $0.00016/sec（$0.0096/min）
 - WarpBuild
-  - 8CPU, 32GBメモリ
-    - warp-ubuntu-latest-x64-8x: $0.016/min
-    - warp-ubuntu-latest-arm64-8x: $0.012/min
-    - warp-ubuntu-latest-arm64-8x-spot: $0.009/min
+  - 8CPU, 32GB メモリ
+    - warp-Ubuntu-latest-x64-8x: $0.016/min
+    - warp-Ubuntu-latest-arm64-8x: $0.012/min
+    - warp-Ubuntu-latest-arm64-8x-spot: $0.009/min
 
 ![cost per second](./images_k_kojima/05-cost.png)
 
-CodeBuildが安く見えますが、メモリの量が他よりも少ないことに注意してください。
-このCPUの量では、Lambdaのarm64が最安になります。
+CodeBuild が安く見えますが、メモリの量が他よりも少ないことに注意してください。
+この CPU の量では、Lambda の arm64 が最安になります。
 メモリを多く消費するなどメモリが重要な場合は他の選択肢も検討する必要があります。
 
 ## 終わりに
 
-AWS CodeBuildでSelf-hosted Runnerを使用できる機能を試しました。
+AWS CodeBuild で Self-hosted Runner を使用できる機能を試しました。
 とくに、前回の記事から変更された点についてみていきました。
 
-Organizationをサポートしたことで、Organizaiton内の多数のリポジトリでの使用が容易になったと思います。
-またリポジトリレベルでのSelf hosted runnerをOrganizationレベルで無効にしている環境でも使用しやすくなりました。
-特にLambdaの料金が安いため、レビュアーの紐付けやコメントの確認などの簡単なタスクであればコストを大きく削減できます。
-Buildspecもサポートされたため、共通のインストール処理などを随時行えるようになりました。
+Organization をサポートしたことで、Organizaiton 内の多数のリポジトリでの使用が容易なりました。
+またリポジトリレベルでの Self hosted runner を Organization レベルで無効にしている環境でも使用しやすくなりました。
+特に Lambda の料金が安いため、レビュアーの紐付けやコメントの確認などの簡単なタスクであればコストを大きく削減できます。
+Buildspec もサポートされたため、共通のインストール処理などを随時行えるようになりました。
