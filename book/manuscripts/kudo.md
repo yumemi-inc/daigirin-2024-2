@@ -20,8 +20,8 @@ Safari または Web サイトを経由することなく、アプリ内のコ�
 
 ## Universal Links の仕組み
 
-Xcode の Associated Domains で設定したドメインの apple-app-site-association(以下、AASA)が、アプリの初回ダウンロード時・アップデート時に Apple の CDN からダウンロードされることで、AASA に記載されている特定のパスからのみアプリを起動可能になるというものです。
-図にすると以下のような感じでしょうか。
+Xcode の Associated Domains で設定したドメインの apple-app-site-association(以下、AASA)が、アプリの初回ダウンロード時・アップデート時に Apple の CDN からダウンロードされることで、AASA に記載されている特定のパスからのみアプリを起動可能になります。
+図にすると以下のようになります。
 
 ![Universal Linksの仕組み](./images_kudo/universal-link-structure.png "Universal Links の仕組み")
 
@@ -167,7 +167,7 @@ develper モードを有効にすることで、開発環境で Universal Links 
 この場合では、以下の URL などが対象になります。
 
 - `https://exsample.com/help/?articleNumber=0001`
-- `https://exsample.com/help/?articleNumber=abcd`な
+- `https://exsample.com/help/?articleNumber=abcd`
 
 クエリアイテムは任意の 4 文字なので、以下の URL などは対象外になります。
 
