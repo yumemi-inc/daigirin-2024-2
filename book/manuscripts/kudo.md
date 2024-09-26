@@ -16,7 +16,9 @@ class: content
 ## Universal Links とは
 
 Web サイトのリンクをクリックした時に iOS アプリを起動する Apple が提供している機能のことです。
-Safari または Web サイトを経由することなく、アプリ内のコンテンツに直接リンクすることができます。アプリがインストールされている場合は、ネイティブアプリに遷移し、インストールされていない場合はデフォルトの Web ブラウザでリンクを開きます。[^1]
+Safari または Web サイトを経由することなく、アプリ内のコンテンツに直接リンクすることができます。アプリがインストールされている場合は、ネイティブアプリに遷移し、インストールされていない場合はデフォルトの Web ブラウザでリンクを開きます。[^universal-links-overview]
+
+[^universal-links-overview]: <https://developer.apple.com/documentation/technotes/tn3155-debugging-universal-links#Overview>
 
 ## Universal Links の仕組み
 
@@ -108,7 +110,9 @@ develper モードを有効にすることで、開発環境で Universal Links 
 }
 ```
 
-上記の AASA は[Supporting associated domains](https://developer.apple.com/documentation/xcode/supporting-associated-domains)から抜粋したものです。[^2]
+上記の AASA は[Supporting associated domains](https://developer.apple.com/documentation/xcode/supporting-associated-domains)から抜粋したものです。[^supporting-associated-domains]
+
+[^supporting-associated-domains]: <https://developer.apple.com/documentation/xcode/supporting-associated-domains>
 
 以下が AASA を書くまでの流れです。
 
@@ -174,7 +178,10 @@ develper モードを有効にすることで、開発環境で Universal Links 
 - `https://exsample.com/help/?articleNumber=000001`
 - `https://exsample.com/help/?articleNumber=abc`
 
-さらに詳しい記載方法は、WWDC のセッション動画でもキャッチアップすることができます。[^3] [^4]
+さらに詳しい記載方法は、WWDC のセッション動画でもキャッチアップすることができます。[^wwdc-2020] [^wwdc-2019]
+
+[^wwdc-2020]: <https://developer.apple.com/videos/play/wwdc2020/10098/>
+[^wwdc-2019]: <https://developer.apple.com/videos/play/wwdc2019/717/>
 
 ## Universal Links を実装するにあたってハマったポイント
 
@@ -183,7 +190,9 @@ develper モードを有効にすることで、開発環境で Universal Links 
 私はアドレスバーに URL を打ち込んで動作検証しており、全く Universal Links が機能しないという現象に遭遇しました。
 こちらはドキュメントにガッツリ記載があり、Safari のアドレスバーに直接 URL を打っても Universal Links は動作しないよと書いてありました。（しかも日本語で！）
 
-> Safari のアドレスバーに直接 URL を入力しても、アプリが開くことはありません。Safari では、この操作はダイレクトナビゲーションとして処理されます。ユーザーがドメインに直接移動してからそのドメインにとどまっている間は、サイトにはアプリを開くためのバナーが表示されます。[^1]
+> Safari のアドレスバーに直接 URL を入力しても、アプリが開くことはありません。Safari では、この操作はダイレクトナビゲーションとして処理されます。ユーザーがドメインに直接移動してからそのドメインにとどまっている間は、サイトにはアプリを開くためのバナーが表示されます。[^test-universal-links-behavior]
+
+[^test-universal-links-behavior]: <https://developer.apple.com/documentation/technotes/tn3155-debugging-universal-links#Test-universal-links-behavior>
 
 ドキュメントはちゃんと読みましょう。。。
 
@@ -199,20 +208,26 @@ AppStore 経由でダウンロードしたアプリは、ダウンロード時�
 こちらに関しては調べてもこれと言った対策は特に見当たらないので、気長に待つしかなさそうです。
 私が仕事で TestFlight 配信したアプリを確認したところ、1 時間くらいかかりました。
 
-Developer Forums でも TestFlight 経由のアプリで Universal Links が動作しないという書き込みがあります。[^5]
+Developer Forums でも TestFlight 経由のアプリで Universal Links が動作しないという書き込みがあります。[^developer-forums]
+
+[^developer-forums]: <https://forums.developer.apple.com/forums/thread/108339>
 
 ### Safari 以外がデフォルトブラウザの場合は Universal Links が機能しない可能性がある
 
 私が手元で検証した感じだと、Safari をデフォルトブラウザにして Universal Links 起動 → その後 Safari 以外をデフォルトブラウザにして Universal Links 起動の流れだと機能しました。
 しかし、最初から Safari 以外をデフォルトブラウザにしていると、特定ドメイン以外は Universal Links が機能しないように OS が制御するようです。
 
-> Apps that have the com.apple.developer.web-browser managed entitlement may not claim to respond to Universal Links for specific domains. The system will ignore any such claims. Apps with the entitlement can still open Universal Links to other apps as usual.[^6]
+> Apps that have the com.apple.developer.web-browser managed entitlement may not claim to respond to Universal Links for specific domains. The system will ignore any such claims. Apps with the entitlement can still open Universal Links to other apps as usual.[^adhere-to-browser-restrictions]
+
+[^adhere-to-browser-restrictions]: <https://developer.apple.com/documentation/xcode/preparing-your-app-to-be-the-default-browser#Adhere-to-browser-restrictions>
 
 ### 同一ドメインのブラウザ遷移だと Universal Links が機能しない
 
 例えば、`https://example.com`という Web サイトを閲覧中に`https://example.com`を Universal Links の対象に設定しても動作しません。
 
-> すでに Safari で閲覧している場合に Universal Links を使用してアプリを開くには、別のサブドメインを使用します。これが必要になる理由として、アンケートに回答する場合やサインインを実行する場合などがあります。Universal Links のドメインが前のナビゲーションと同じである場合、Safari では、ユーザーがブラウザでのナビゲーションを継続する意向であると推測します。[^1]
+> すでに Safari で閲覧している場合に Universal Links を使用してアプリを開くには、別のサブドメインを使用します。これが必要になる理由として、アンケートに回答する場合やサインインを実行する場合などがあります。Universal Links のドメインが前のナビゲーションと同じである場合、Safari では、ユーザーがブラウザでのナビゲーションを継続する意向であると推測します。[^use-universal-links-on-your-site]
+
+[^use-universal-links-on-your-site]: <https://developer.apple.com/documentation/technotes/tn3155-debugging-universal-links#Use-universal-links-on-your-site>
 
 では、Web サイト閲覧中にあるアクションをトリガーして Universal Links を使いたいケースではどうすれば良いのでしょうか？
 実は、サブドメインを使用することで、見た目上は Web サイト閲覧中でも Universal Links を使うことができます。
@@ -261,12 +276,3 @@ https://qiita.com/KaitoKudou/items/5cc3849b46e73f3a33f8
 ```
 
 ![記事のQRコード](./images_kudo/qr-code.png "記事のQRコード")
-
-## 参考文献
-
-[^1]: [TN3155：ユニバーサルリンクのデバッグ](https://developer.apple.com/jp/documentation/technotes/tn3155-debugging-universal-links/)
-[^2]: [Supporting associated domains](https://developer.apple.com/documentation/xcode/supporting-associated-domains)
-[^3]: [What's new in Universal Links - WWDC 2020 -](https://developer.apple.com/videos/play/wwdc2020/10098/)
-[^4]: [What's New in Universal Links - WWDC 2019 -](https://developer.apple.com/videos/play/wwdc2019/717/)
-[^5]: [Universal Link not working on TestFlight](https://forums.developer.apple.com/forums/thread/108339)
-[^6]: [Preparing your app to be the default web browser](https://developer.apple.com/documentation/xcode/preparing-your-app-to-be-the-default-browser#Adhere-to-browser-restrictions)
