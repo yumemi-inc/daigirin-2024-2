@@ -32,13 +32,13 @@ Xcode の Associated Domains で設定したドメインの apple-app-site-assoc
 
 ## Universal Links を使うための準備
 
-Universal Links を使うためには、サーバー側とアプリ側の両方の対応が必要になります。
+Universal Links を使うためには、サーバー側とアプリ側の両方で準備作業が必要になります。
 それぞれに分けて説明します。
 
 ### サーバー側の準備
 
 1. apple-app-site-association というファイル名の JSON ファイルを用意します。このファイル名は固定です。apple-app-site-association 以外の名前にしてしまった場合は、Universal Links が正しく動作しません。
-   AASA の用意は一般的に iOS エンジニアが行うと思うので、アプリ側の対応で紹介します。
+   AASA の用意は一般的に iOS エンジニアが行うと思うので、後述のアプリ側の準備で紹介します。
 
 1. AASA を以下の URL にホストする
 
@@ -50,7 +50,7 @@ https://example.com/.well-known/apple-app-site-association
 また、AASA に対するアクセスについては、IP 制限を解除する必要があります。
 理由は、Apple が管理する CDN から AASA を取得するため、外部に公開する必要があるためです。
 しかし、DEV 環境や STG 環境などの開発環境は IP 制限を外したくないケースもあると思います。
-IP 制限がかかっている状態で Universal Links を実現する方法は、アプリ側の対応で紹介します。
+IP 制限がかかっている状態で Universal Links を実現する方法は、後述のアプリ側の準備で紹介します。
 
 ### アプリ側の準備
 
