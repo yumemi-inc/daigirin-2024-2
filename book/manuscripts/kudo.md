@@ -174,7 +174,7 @@ develper モードを有効にすることで、開発環境で Universal Links 
 - `https://exsample.com/help/?articleNumber=000001`
 - `https://exsample.com/help/?articleNumber=abc`
 
-さらに詳しい記載方法は、WWDC のセッション動画でもキャッチアップすることができます。[^3][^4]
+さらに詳しい記載方法は、WWDC のセッション動画でもキャッチアップすることができます。[^3] [^4]
 
 ## Universal Links を実装するにあたってハマったポイント
 
