@@ -9,8 +9,9 @@ class: content
 
 # GitHub ActionsのSelf-hosted RunnerをAWS CodeBuildで動かす
 
-AWS CodeBuild の User Guide [Self-hosted GitHub Actions runners in AWS CodeBuild](
-https://docs.aws.amazon.com/codebuild/latest/userguide/action-runner.html) に記載がある、AWS CodeBuild を GitHub Actions の Self-hosted Runner として使用可能な機能を試します。
+AWS CodeBuild の User Guide Self-hosted GitHub Actions runners in AWS CodeBuild[^action-runner] に記載がある、AWS CodeBuild を GitHub Actions の Self-hosted Runner として使用可能な機能を試します。
+
+[^action-runner]: https://docs.aws.amazon.com/codebuild/latest/userguide/action-runner.html
 
 2024-09-20 時点での内容です。最新情報は上記ドキュメントを参照ください。
 実際に使用したいとなったら自身の環境で動作確認してください。
@@ -80,7 +81,9 @@ Self-hosted Runner として動かすためには、 CodeBuild の Webhook で `
 この設定のあるプロジェクトが、 Self-hosted Runner として認識されるようです。
 
 コンソールからの作成では Webhook の設定を遅らせることができますが、AWS Provder 5.68.0 時点では Terraform でその設定はできません。
-[API](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_CreateWebhook.html#CodeBuild-CreateWebhook-request-manualCreation)側にその設定はあるため、実装される可能性はあります。
+API[^CodeBuild-CreateWebhook-request-manualCreation]側にその設定はあるため、実装される可能性はあります。
+
+[^CodeBuild-CreateWebhook-request-manualCreation]: https://docs.aws.amazon.com/codebuild/latest/APIReference/API_CreateWebhook.html#CodeBuild-CreateWebhook-request-manualCreation
 
 buildspec については、 Self-hosted Runner として稼働させる場合、初期設定では無視されます。そのため適当な buildspec を入れるようにしています。リポジトリ内の buildspec.yaml を使用する設定になっていても問題ありません。
 コンソールから作成した場合にはリポジトリ内の buildspec.yaml を使用する設定になっているようです。
@@ -127,9 +130,11 @@ jobs:
       - codebuild-github_runner-${{ github.run_id }}-${{ github.run_attempt }}
 ```
 
-詳しくは[ドキュメントのUpdate your GitHub Actions workflow YAML](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-github-action-runners.html#sample-github-action-runners-update-yaml)に記載があります。
+詳しくはドキュメントの Update your GitHub Actions workflow YAML[^runs-on]に記載があります。
 `codebuild-<プロジェクト名>-${{ github.run_id }}-${{ github.run_attempt }}` のように記載すると動きます。
 この記載では CodeBuild に設定されているランタイムで動作します。上の例では x64 の Node.js 20 が Lambda（2GB）上で動作します。
+
+[^runs-on]: https://docs.aws.amazon.com/codebuild/latest/userguide/sample-github-action-runners.html#sample-github-action-runners-update-yaml
 
 GitHub Actions から AWS にアクセスする際には OIDC による認証を使用することが多いですが、OIDC による接続は問題なく動作します。
 次の job は OIDC の認証前と認証後でどのロールが使用されているか調べています。
@@ -168,8 +173,10 @@ x64 のインスタンスか、arm64 にするかもここで選択できます�
 
 Lambda のイメージには、一部 GitHub Actions で動作させるのが難しいイメージもあります。注意点の項目を参照してください。
 
-設定できる内容は[こちらのドキュメントのCompute images supported with the CodeBuild-hosted GitHub Actions runner](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-github-action-runners-update-yaml.images.html)に記載があります。
+設定できる内容はドキュメントの Compute images supported with the CodeBuild-hosted GitHub Actions runner[^images]に記載があります。
 `image:<Environment type>-<Image identifier>` のフォーマットになります。
+
+[^images]: https://docs.aws.amazon.com/codebuild/latest/userguide/sample-github-action-runners-update-yaml.images.html
 
 たとえば、EC2 の Ubuntu の CodeBuild を使用する際には次の記述をします。
 
@@ -198,7 +205,9 @@ CodeBuild では EC2、Lambda ともにカスタムイメージを設定でき�
 `ubuntu:jammy` のようなイメージを使用してしまうと Runner のインストールができずに実行が失敗します。
 `node:20` のようなイメージであれば問題ありません。
 Lambda で使用する際には ECR のイメージに限定されます。
-[Amazon ECR Public Gallery](https://gallery.ecr.aws/)の docker/library 配下に基本的なイメージがあるので、そこまで困ることはありません。
+Amazon ECR Public Gallery[^public-ecr]の docker/library 配下に基本的なイメージがあるので、そこまで困ることはありません。
+
+[^public-ecr]: https://gallery.ecr.aws/
 
 この場合上記のイメージの変更はできません。Webhook で次のエラーが出ます。
 ```json
@@ -209,8 +218,11 @@ CI が起動せず、ずっと waiting の状態になります。
 ### インスタンスタイプの変更
 
 CodeBuild に割り当てるスペックを変更できます。
-[ドキュメントのAbout environment types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html#environment.types)に記載のあるスペックから使用したいものを選び、設定します。
-使用できる種類や設定するパラメータについては[ドキュメントのCompute images supported with the CodeBuild-hosted GitHub Actions runner](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-github-action-runners-update-yaml.images.html)に記載があります。
+ドキュメントの About environment types[^environment-types]に記載のあるスペックから使用したいものを選び、設定します。
+使用できる種類や設定するパラメータについてはドキュメントの Compute images supported with the CodeBuild-hosted GitHub Actions runner[^images-param]に記載があります。
+
+[^environment-types]: https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html#environment.types
+[^images-param]: https://docs.aws.amazon.com/codebuild/latest/userguide/sample-github-action-runners-update-yaml.images.html
 
 EC2 の arm の、もっとも小さいサイズを指定する際には次のようになります。
 
@@ -325,7 +337,9 @@ buildspec ファイルを使用するように設定すると、該当のリポ�
 ### Workflow 側の設定
 
 Buildspec を使用する場合には、 `runs-on` を適切に設定する必要があります。
-[ドキュメントのRun buildspec commands the INSTALL, PRE_BUILD, and POST_BUILD phases](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-github-action-runners.html#sample-github-action-runners-update-yaml)に記載があります。
+ドキュメントの Run buildspec commands the INSTALL, PRE_BUILD, and POST_BUILD phases[^workflow-buildspec]に記載があります。
+
+[^workflow-buildspec]: https://docs.aws.amazon.com/codebuild/latest/userguide/sample-github-action-runners-update-yaml.images.html
 
 ```yaml
 runs-on:
@@ -335,8 +349,10 @@ runs-on:
 
 のように、 `buildspec-override:true` の追加が必要です。
 
-詳しい指定方法は[ドキュメントのLabel overrides supported with the CodeBuild-hosted GitHub Actions runner](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-github-action-runners-update-labels.html)に記載があります。
+詳しい指定方法はドキュメントの Label overrides supported with the CodeBuild-hosted GitHub Actions runner[^workflow-labels]に記載があります。
 日本語版のドキュメントではまだページがありませんでした。
+
+[^workflow-labels]: https://docs.aws.amazon.com/codebuild/latest/userguide/sample-github-action-runners-update-labels.html
 
 ### 実行結果
 
