@@ -9,7 +9,8 @@ class: content
 
 # GitHub ActionsのSelf-hosted RunnerをAWS CodeBuildで動かす
 
-https://docs.aws.amazon.com/codebuild/latest/userguide/action-runner.html に記載のある、AWS CodeBuild を GitHub Actions の Self-hosted Runner として使用可能な機能を試します。
+AWS CodeBuild の User Guide [Self-hosted GitHub Actions runners in AWS CodeBuild](
+https://docs.aws.amazon.com/codebuild/latest/userguide/action-runner.html) に記載がある、AWS CodeBuild を GitHub Actions の Self-hosted Runner として使用可能な機能を試します。
 
 2024-09-20 時点での内容です。最新情報は上記ドキュメントを参照ください。
 実際に使用したいとなったら自身の環境で動作確認してください。
@@ -109,7 +110,7 @@ Buildspec の設定は任意です。共通して AWS 側で行いたい処理�
 
 ### GitHub Actionsでの設定
 
-上記で作成した、 `github_runner` の名前のプロジェクトを使用するために、 GitHub Actions の yaml に次のように記述します。
+上記で作成した `github_runner` の名前のプロジェクトを使用するために、 GitHub Actions の yaml に次のように記述します。
 
 ```yaml
 jobs:
@@ -128,10 +129,10 @@ jobs:
 
 詳しくは[ドキュメントに記載](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-github-action-runners.html#sample-github-action-runners-update-yaml)があります。
 `codebuild-<プロジェクト名>-${{ github.run_id }}-${{ github.run_attempt }}` のように記載すると動きます。
-この記載では CodeBuild に設定されているランタイムで動作します。上の例では x64 の nod.js 20 が Lambda（2GB）上で動作します。
+この記載では CodeBuild に設定されているランタイムで動作します。上の例では x64 の node.js 20 が Lambda（2GB）上で動作します。
 
 GitHub Actions から AWS にアクセスする際には OIDC による認証を使用することが多いですが、OIDC による接続は問題なく動作します。
-次の job は OIDC による認証をする前としたあとでどのロールが使用されているか調べています。
+次の job は OIDC の認証前と認証後でどのロールが使用されているか調べています。
 1 回目の `aws sts get-caller-identity` で CodeBuild 自身のロールが表示されます。
 Assume Role した後の 2 回目の呼び出しでは Assume Role した先のロールが表示されることを確認しました。
 CodeBuild 実行ロールと Assume Role するロールに特別な設定は不要で、GitHub-hosted Runner で実行する時と同じように使えます。
@@ -248,7 +249,7 @@ runs-on:
 
 ### 古い書き方
 
-2024/05 時点では次のような記述がされていました。現在も動作することは確認しましたが、"legacy"とつけられているため上記の記法を採用する方がよいと思われます。
+2024-05 時点では次のような記述がされていました。現在も動作することは確認しましたが、"legacy"とつけられているため上記の記法を採用する方がよいと思われます。
 
 ```yaml
 runs-on: codebuild-<project-name>-${{ github.run_id }}-${{ github.run_attempt }}-<environment-type>-<image-identifier>-<instance-size>
@@ -465,7 +466,7 @@ Webhook の Filter を設定が可能です。上記の例では必要最低限�
 ## 費用
 
 GitHub Hosted Runner との料金を比較します。
-主に、Linux での実行の比較です。Windows や Mac OS 環境の比較はしません。
+主に、Linux での実行の比較です。Windows や macOS 環境の比較はしません。
 GitHub Actions, AWS CodeBuild, その他の実行環境として WarpBuild の料金を比較します。
 
 ### 参考
