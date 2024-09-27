@@ -473,7 +473,7 @@ GitHub Actions, AWS CodeBuild, その他の実行環境として WarpBuild の�
 
 - GitHub Actions の料金
   - https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions
-  - https://docs.github.com/en/actions/using-github-hosted-runners/using-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for--private-repositories
+  - https://docs.github.com/en/actions/using-github-hosted-runners/using-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-private-repositories
 - AWS CodeBuild の料金
   - https://aws.amazon.com/jp/codebuild/pricing/
 - WarpBuild の料金（比較対象）
