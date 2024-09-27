@@ -9,8 +9,10 @@ class: content
 
 # GitHub ActionsのSelf-hosted RunnerをAWS CodeBuildで動かす
 
+<!-- textlint-disable -->
 AWS CodeBuild の User Guide [Self-hosted GitHub Actions runners in AWS CodeBuild](
 https://docs.aws.amazon.com/codebuild/latest/userguide/action-runner.html) に記載がある、AWS CodeBuild を GitHub Actions の Self-hosted Runner として使用可能な機能を試します。
+<!-- textlint-enable -->
 
 2024-09-20 時点での内容です。最新情報は上記ドキュメントを参照ください。
 実際に使用したいとなったら自身の環境で動作確認してください。
@@ -129,7 +131,7 @@ jobs:
 
 詳しくは[ドキュメントに記載](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-github-action-runners.html#sample-github-action-runners-update-yaml)があります。
 `codebuild-<プロジェクト名>-${{ github.run_id }}-${{ github.run_attempt }}` のように記載すると動きます。
-この記載では CodeBuild に設定されているランタイムで動作します。上の例では x64 の node.js 20 が Lambda（2GB）上で動作します。
+この記載では CodeBuild に設定されているランタイムで動作します。上の例では x64 の Node.js 20 が Lambda（2GB）上で動作します。
 
 GitHub Actions から AWS にアクセスする際には OIDC による認証を使用することが多いですが、OIDC による接続は問題なく動作します。
 次の job は OIDC の認証前と認証後でどのロールが使用されているか調べています。
