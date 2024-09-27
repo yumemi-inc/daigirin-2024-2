@@ -9,10 +9,8 @@ class: content
 
 # GitHub ActionsのSelf-hosted RunnerをAWS CodeBuildで動かす
 
-<!-- textlint-disable -->
 AWS CodeBuild の User Guide [Self-hosted GitHub Actions runners in AWS CodeBuild](
 https://docs.aws.amazon.com/codebuild/latest/userguide/action-runner.html) に記載がある、AWS CodeBuild を GitHub Actions の Self-hosted Runner として使用可能な機能を試します。
-<!-- textlint-enable -->
 
 2024-09-20 時点での内容です。最新情報は上記ドキュメントを参照ください。
 実際に使用したいとなったら自身の環境で動作確認してください。
@@ -129,7 +127,7 @@ jobs:
       - codebuild-github_runner-${{ github.run_id }}-${{ github.run_attempt }}
 ```
 
-詳しくは[ドキュメントに記載](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-github-action-runners.html#sample-github-action-runners-update-yaml)があります。
+詳しくは[ドキュメントのUpdate your GitHub Actions workflow YAML](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-github-action-runners.html#sample-github-action-runners-update-yaml)に記載があります。
 `codebuild-<プロジェクト名>-${{ github.run_id }}-${{ github.run_attempt }}` のように記載すると動きます。
 この記載では CodeBuild に設定されているランタイムで動作します。上の例では x64 の Node.js 20 が Lambda（2GB）上で動作します。
 
@@ -170,7 +168,7 @@ x64 のインスタンスか、arm64 にするかもここで選択できます�
 
 Lambda のイメージには、一部 GitHub Actions で動作させるのが難しいイメージもあります。注意点の項目を参照してください。
 
-設定できる内容は[こちらのドキュメント](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-github-action-runners-update-yaml.images.html)に記載があります。
+設定できる内容は[こちらのドキュメントのCompute images supported with the CodeBuild-hosted GitHub Actions runner](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-github-action-runners-update-yaml.images.html)に記載があります。
 `image:<Environment type>-<Image identifier>` のフォーマットになります。
 
 たとえば、EC2 の Ubuntu の CodeBuild を使用する際には次の記述をします。
@@ -211,8 +209,8 @@ CI が起動せず、ずっと waiting の状態になります。
 ### インスタンスタイプの変更
 
 CodeBuild に割り当てるスペックを変更できます。
-[こちらのドキュメント](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html#environment.types)に記載のあるスペックから使用したいものを選び、設定します。
-使用できる種類や設定するパラメータについては[こちらのドキュメント](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-github-action-runners-update-yaml.images.html)に記載があります。
+[ドキュメントのAbout environment types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html#environment.types)に記載のあるスペックから使用したいものを選び、設定します。
+使用できる種類や設定するパラメータについては[ドキュメントのCompute images supported with the CodeBuild-hosted GitHub Actions runner](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-github-action-runners-update-yaml.images.html)に記載があります。
 
 EC2 の arm の、もっとも小さいサイズを指定する際には次のようになります。
 
@@ -327,7 +325,7 @@ buildspec ファイルを使用するように設定すると、該当のリポ�
 ### Workflow 側の設定
 
 Buildspec を使用する場合には、 `runs-on` を適切に設定する必要があります。
-[こちらのドキュメント](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-github-action-runners.html#sample-github-action-runners-update-yaml)内の、"Run buildspec commands the INSTALL, PRE_BUILD, and POST_BUILD phases" に記載があります。
+[ドキュメントのRun buildspec commands the INSTALL, PRE_BUILD, and POST_BUILD phases](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-github-action-runners.html#sample-github-action-runners-update-yaml)に記載があります。
 
 ```yaml
 runs-on:
@@ -337,7 +335,7 @@ runs-on:
 
 のように、 `buildspec-override:true` の追加が必要です。
 
-詳しい指定方法は[こちらのドキュメント](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-github-action-runners-update-labels.html)に記載があります。
+詳しい指定方法は[ドキュメントのLabel overrides supported with the CodeBuild-hosted GitHub Actions runner](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-github-action-runners-update-labels.html)に記載があります。
 日本語版のドキュメントではまだページがありませんでした。
 
 ### 実行結果
