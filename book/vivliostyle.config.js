@@ -16,6 +16,7 @@ module.exports = {
     'emoto.md',
     'kudo.md',
     'k_kojima.md',
+    'sato.md',
     'usami.md',
 
     // 会社紹介（必要なら以下をアンコメントして利用、掲載時は頒布イベントの出展要項に注意）
