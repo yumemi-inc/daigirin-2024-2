@@ -12,10 +12,24 @@ class: exclude-hashira
 
 ---
 
-* 発行　ゆめみ大技林製作委員会
-* 表紙　吉森由之助
-* 印刷　日光企画
-* 連絡　https://twitter.com/yumemiinc
+<div class="colophon-container">
+  <div class="colophon-row">
+    <div class="colophon-label">発行</div>
+    <div class="colophon-value">ゆめみ大技林製作委員会</div>
+  </div>
+  <div class="colophon-row">
+    <div class="colophon-label">表紙</div>
+    <div class="colophon-value">吉森由之助</div>
+  </div>
+  <div class="colophon-row">
+    <div class="colophon-label">印刷</div>
+    <div class="colophon-value">日光企画</div>
+</div>
+  <div class="colophon-row">
+    <div class="colophon-label">連絡先</div>
+    <div class="colophon-value">https://twitter.com/yumemiinc</div>
+  </div>
+</div>
 
 ---
 
