@@ -63,7 +63,7 @@ Server Side Swift で API サーバーを開発する場合、一般的には Li
 <!-- textlint-enable -->
 
 <!-- textlint-disable -->
-IDE は iOS 開発と同様に Xcode を使うことも可能ですが、Server Side Swift は Xcode に依存していないため [swiftlang/vscode-swift](https://github.com/swiftlang/vscode-swift) を利用することで VSCode での開発も可能です。
+IDE は iOS 開発と同様に Xcode を使うことも可能ですが、Server Side Swift は Xcode に依存していないため [swiftlang/vscode-swift](https://github.com/swiftlang/vscode-swift) を利用することで VS Code での開発も可能です。
 <!-- textlint-enable -->
 
 ### 実行方法
