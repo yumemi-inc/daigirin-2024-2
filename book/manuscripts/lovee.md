@@ -3,11 +3,11 @@ class: content
 ---
 
 <div class="doc-header">
-  <h1>より優雅な範囲判定を書きたくて</h1>
+  <h1>Swiftでより優雅な範囲判定を書きたくて</h1>
   <div class="doc-author">星野恵瑠</div>
 </div>
 
-# より優雅な範囲判定を書きたくて
+# Swiftでより優雅な範囲判定を書きたくて
 
 <!-- Qiita用 
 :::note info
@@ -15,9 +15,11 @@ class: content
 :::
 -->
 
-:::note info
-本記事は Qiita にも投稿されています。最新の修正や追筆は Qiita に更新していますので、ぜひ右側の QR コードからご覧ください。
-:::
+<img alt="Qiita 記事への QR コード" style="float:right;margin-left:6px" width=80  src="./images_lovee/post.png">
+
+※本記事は Qiita でも同じものを公開しています。出版後に追筆や訂正等がある場合は Qiita の記事でご覧いただけますので、後述の URL か、右の QR コードからアクセスしてみてください：
+
+https://qiita.com/lovee/items/99b898690cfe784b195c
 
 ## TL;DR
 
