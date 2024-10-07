@@ -580,3 +580,9 @@ Organization をサポートしたことで、Organizaiton 内の多数のリポ
 またリポジトリレベルでの Self hosted runner を Organization レベルで無効にしている環境でも使用しやすくなりました。
 特に Lambda の料金が安いため、レビュアーの紐付けやコメントの確認などの簡単なタスクであればコストを大きく削減できます。
 Buildspec もサポートされたため、共通のインストール処理などを随時行えるようになりました。
+
+<!-- 奇数ページを調整するための強制改ページ -->
+<!-- markdownlint-disable -->
+<hr class="page-break" />
+　
+<!-- markdownlint-enable -->
