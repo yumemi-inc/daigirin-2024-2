@@ -4,7 +4,7 @@ class: content
 
 <div class="doc-header">
   <h1>純粋関数から学ぶ依存性注入</h1>
-  <div class="doc-author">佐藤貴一</div>
+  <div class="doc-author">kii</div>
 </div>
 
 # 純粋関数から学ぶ依存性注入
