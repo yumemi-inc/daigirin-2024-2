@@ -1,0 +1,4 @@
+.no-break {
+    word-wrap: break-word;
+    white-space: nowrap;
+}

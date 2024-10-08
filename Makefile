@@ -55,6 +55,7 @@ lint:
 ## pdfを生成
 pdf:
 	$(VIVLIOSTYLE_CLI) build \
+		--user-style ./theme/custom.css \
 		--no-sandbox
 
 .PHONY: pdf_press
@@ -65,6 +66,7 @@ pdf_press:
 		--press-ready \
 		--preflight-option gray-scale \
 		--style ./theme/theme-press.css \
+		--user-style ./theme/custom.css \
 		--output ./output/press.pdf
 
 .PHONY: open
