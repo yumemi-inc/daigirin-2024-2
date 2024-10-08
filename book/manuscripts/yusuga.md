@@ -934,7 +934,7 @@ $ curl -v 'http://127.0.0.1:8080/openapi/greet?name=Jane'
 
 [swift-dependencies](https://github.com/pointfreeco/swift-dependencies) による DI は [swift-openapi-vapor](https://github.com/swift-server/swift-openapi-vapor) の[チュートリアル](https://swiftpackageindex.com/swift-server/swift-openapi-vapor/main/tutorials/swift-openapi-vapor/requestinjection)に記載されている方法です。もしもサードパーティのライブラリを使いたくない場合は[Swift OpenAPI Generator+VaporでもVaporのRequestを使いたい](https://zenn.dev/nextbeat/articles/ed6391f769ec8e)のように自前で DI も可能です。
 
-<!-- textlint-disable -->Package.swift<!-- textlint-enable --> に [swift-dependencies](https://github.com/pointfreeco/swift-dependencies) を追加します。
+<!-- textlint-disable -->Package.swift<!-- textlint-enable --> に swift-dependencies を追加します。
 
 ```diff
 git diff Package.swift
@@ -994,7 +994,7 @@ extension DependencyValues {
 }
 ```
 
-`Sources/App/Middleware` ディレクトリを新たに作成して、その中に `OpenAPIRequestInjectionMiddleware.swift` を定義します。このミドルウェアでエンドポイントを処理するたびに Request を DI します。
+Sources/App/Middleware ディレクトリを新たに作成して、その中に `OpenAPIRequestInjectionMiddleware.swift` を定義します。このミドルウェアでエンドポイントを処理するたびに Request を DI します。
 
 ```swift
 import Dependencies
@@ -1354,7 +1354,7 @@ Swagger UI に対応させるためには、外部から直接 openapi.yaml へ�
 
 トップのディレクトリ（<!-- textlint-disable -->Package.swift<!-- textlint-enable --> があるディレクトリ）で、次のコマンド実行してシンボリックリンクを作成します。
 
-<!-- textlint-disable -->swift-openapi-generator<!-- textlint-enable --> の[チュートリアル](https://swiftpackageindex.com/apple/swift-openapi-generator/1.3.0/tutorials/swift-openapi-generator/adding-openapi-and-swagger-ui-endpoints)では Sources の方にシンボリックファイルを作成するように記載されていますが、SwiftPM がシンボリックファイルの openapi.yaml を扱えないためビルドエラーになってしまいます。そのため、Public の方にシンボリックファイルを作成する必要があります。
+<!-- textlint-disable -->swift-openapi-generator<!-- textlint-enable --> のチュートリアルでは Sources の方にシンボリックファイルを作成するように記載されていますが、SwiftPM がシンボリックファイルの openapi.yaml を扱えないためビルドエラーになってしまいます。そのため、Public の方にシンボリックファイルを作成する必要があります。
 
 ```sh
 $ ln -s ../Sources/App/openapi.yaml Public/openapi.yaml
