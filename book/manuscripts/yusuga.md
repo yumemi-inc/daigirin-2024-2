@@ -84,7 +84,7 @@ Xcode で Run するとローカルに API サーバが起動するので、 htt
 
 ### サーバーサイドフレームワーク
 
-| ライブラリ | GitHub Star | 最終リリース日 | 特徴 |
+| <div class="no-break">ライブラリ</div> | <div class="no-break">GitHub Star</div> | <div class="no-break">最終リリース日</div> | 特徴 |
 | --- | ---: | --- | --- |
 | [Vapor](https://github.com/vapor/vapor) | 24,300 | 2024-08-22 | Server Side Swift の代表的なフレームワークで、豊富な機能とエコシステムを持ち、大規模なアプリケーションから小規模な API まで幅広く対応している。[日本語ドキュメント](https://docs.vapor.codes/ja/)あり<br>読み方: ゔぇいぱー or べーぱー |
 | [Perfect](https://github.com/PerfectlySoft/Perfect) | 13,800 | 2016-03-22 | 開発終了<!-- textlint-disable -->？<!-- textlint-enable --> |
