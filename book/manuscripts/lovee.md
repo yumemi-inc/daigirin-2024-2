@@ -115,7 +115,7 @@ precedencegroup AssociativeComparisonPrecedence {
 }
 ```
 
-こうれで左から順に連結できる演算子グループが定義できました。ただしこれではまだ足りません、一つの式に複数の演算子が出てきた時、どれを先に演算するかを決めるために演算の優先順位があり、これも演算子グループに定義しなくては行けません。今回の場合、通常の比較演算子と同じ優先順位にしたいのですが、残念ながらそれが直接指定できず、`higherThan` と `lowerThan` しか使えません。というわけで実際の `ComparisonPrecedence` の定義[^comparison-precedence-priority]を見て、`AssociativeComparisonPrecedence` は下記のように演算優先順位を設定します。
+これで左から順に連結できる演算子グループが定義できました。ただしこれではまだ足りません、一つの式に複数の演算子が出てきた時、どれを先に演算するかを決めるために演算の優先順位があり、これも演算子グループに定義しなくてはいけません。今回の場合、通常の比較演算子と同じ優先順位にしたいのですが、残念ながらそれが直接指定できず、`higherThan` と `lowerThan` しか使えません。というわけで実際の `ComparisonPrecedence` の定義[^comparison-precedence-priority]を見て、`AssociativeComparisonPrecedence` は下記のように演算優先順位を設定します。
 
 [^comparison-precedence-priority]: 例えばソースコードで `import Swift` を書けば、Cmd キー押しながら Swift をクリックすると、Swift のいろんなヘッダーが見れます。そこで `ComparisonPrecedence` を検索すると、その定義が見つかります。その定義を見れば、`ComparisonPrecedence` は `LogicalConjunctionPrecedence` より上で、`NilCoalescingPrecedence` より下だとわかります。
 
