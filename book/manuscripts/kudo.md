@@ -4,7 +4,7 @@ class: content
 
 <div class="doc-header">
   <h1>Universal Links の実装方法と陥りがちな罠</h1>
-  <div class="doc-author">工藤海斗</div>
+  <div class="doc-author">くどかい</div>
 </div>
 
 # Universal Links の実装方法と陥りがちな罠
