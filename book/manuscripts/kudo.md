@@ -72,8 +72,8 @@ func application(_ application: UIApplication, continue userActivity: NSUserActi
 
 ### IP 制限がかかっていても Universal Links を有効にする方法
 
-develper モードを有効にすることで、開発環境で Universal Links を有効にできます。
-`applinks:<fully qualified domain>?mode=developer`のようにドメインの後ろに`?mode=developer`をつけることで、develper モードを有効にすることができます。
+developer モードを有効にすることで、開発環境で Universal Links を有効にできます。
+`applinks:<fully qualified domain>?mode=developer`のようにドメインの後ろに`?mode=developer`をつけることで、developer モードを有効にすることができます。
 
 以上の工程で Universal Links を実現させることができます。
 次節からは、AASA の詳しい記載方法と、AASA に記載されている URL コンポーネントのパターンマッチングについて解説します。
@@ -199,10 +199,10 @@ develper モードを有効にすることで、開発環境で Universal Links 
 
 ドキュメントはちゃんと読みましょう。。。
 
-### 配布用証明書で配るアプリは develper モードを有効にすることができない
+### 配布用証明書で配るアプリは developer モードを有効にすることができない
 
-「develper モード」という名前がついているので、言われてみればそうだよなという感じですね。
-開発用の証明書でビルドされたアプリのみ develper モードを有効にすることができます。
+「developer モード」という名前がついているので、言われてみればそうだよなという感じですね。
+開発用の証明書でビルドされたアプリのみ developer モードを有効にすることができます。
 TestFlight 経由で配布するアプリや本番用のアプリは、IP 制限を外さないと Universal Links が機能しません。
 
 ### TestFlight で配布する場合は、すぐに AASA が端末にダウンロードされる訳ではない
