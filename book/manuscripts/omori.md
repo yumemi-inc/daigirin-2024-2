@@ -27,7 +27,7 @@ class: content
 
 ### 若手ふんわり勉強部
 
-<img alt="若手ふんわり勉強部のイベントページ" style="margin: auto;display: block;" width="60%" src="./image_omori/若手ふんわり勉強部%20-%20connpass%20-%20wakate-funwari-study.connpass.com.png">
+<!-- <img alt="若手ふんわり勉強部のイベントページ" style="margin: auto;display: block;" width="60%" src="./image_omori/若手ふんわり勉強部%20-%20connpass%20-%20wakate-funwari-study.connpass.com.png"> -->
 
 URL：https://wakate-funwari-study.connpass.com/
 
@@ -41,7 +41,7 @@ URL：https://wakate-funwari-study.connpass.com/
 
 ### Akihabara.any
 
-<img alt="Akihabara.anyのイベントページ" style="margin: auto;display: block;" width="60%" src="./image_omori/Akihabara.any%20-%20connpass%20-%20akihabara-any.connpass.com.png">
+<!-- <img alt="Akihabara.anyのイベントページ" style="margin: auto;display: block;" width="60%" src="./image_omori/Akihabara.any%20-%20connpass%20-%20akihabara-any.connpass.com.png"> -->
 
 URL：https://akihabara-any.connpass.com/
 
@@ -53,7 +53,7 @@ URL：https://akihabara-any.connpass.com/
 
 ### エンジニアニメ
 
-<img alt="エンジニアニメのイベントページ" style="margin: auto;display: block;" width="60%" src="./image_omori/エンジニアニメ%20-%20connpass%20-%20engineers-anime.connpass.com.png">
+<!-- <img alt="エンジニアニメのイベントページ" style="margin: auto;display: block;" width="60%" src="./image_omori/エンジニアニメ%20-%20connpass%20-%20engineers-anime.connpass.com.png"> -->
 
 URL：https://engineers-anime.connpass.com/
 
@@ -64,8 +64,6 @@ URL：https://engineers-anime.connpass.com/
 エンジニアだとリモートワークやフルリモートの方が一定数いると思います。その中で、仕事以外の趣味の話をざっくばらんに話せる機会はあまりないと思います。そのような環境の中で、趣味（アニメ）の話から仕事の話まで自由にできる環境が欲しいと思い企画、主催しています。
 
 その結果、技術の話はあまり自信がないが、アニメの話ならということで参加してくださった方やアニメの話を遠慮なくできる場は楽しいなどの感想をいただけました。
-
-<hr class="page-break" />
 
 ## 勉強会を始めたきっかけから開催まで
 
@@ -160,4 +158,4 @@ URL：https://engineers-anime.connpass.com/
 
 勉強会当日も、早くきてくださった方に受付のサポートをしていただいたりしています。頼れるところは参加者であったり、知り合いの方にお願いして会場をお借りできないか相談するのがいいのかなと思いました。オフラインの勉強会では会場が必須です。会場が決まれば開催日時も決まってきて、少しづつ前に進むと思います。
 
-<hr class="page-break" />
+<!-- <hr class="page-break" /> -->
