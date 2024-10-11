@@ -14,8 +14,8 @@ module.exports = {
     'preface.md',
     // 各章の原稿
     'usami.md',
-    'lovee.md',
     'sato.md',
+    'lovee.md',
     'kudo.md',
     'emoto.md',
     'kawashima.md',
