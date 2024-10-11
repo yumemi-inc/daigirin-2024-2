@@ -4,7 +4,7 @@ class: content
 
 <div class="doc-header">
   <h1>私のエンジニア向けオフライン勉強会の始め方</h1>
-  <div class="doc-author">うーたん（@uutan1108）</div>
+  <div class="doc-author">うーたん（X：@uutan1108）</div>
 </div>
 
 # 私のエンジニア向けオフライン勉強会の始め方
@@ -15,21 +15,22 @@ class: content
 
 ## 自己紹介
 
-うーたん（[@uutan1108](https://x.com/uutan1108)）です。株式会社ゆめみでサーバーサイドエンジニアをしています。
+うーたん（X：@uutan1108）です。株式会社ゆめみでサーバーサイドエンジニアをしています。
 
-さまざまな勉強会の主催や運営しています。これらの勉強会の募集などは connpass[^connpass] というサービスを利用して行っています。[ゆめみの社外向け勉強会](https://yumemi.connpass.com/)は 8 回、プライベートでは 18 回開催してきました。
+さまざまな勉強会の主催や運営しています。これらの勉強会の募集などは connpass[^connpass] というサービスを利用して行っています。ゆめみの社外向け勉強会[^yumemi_connpass]は 8 回、プライベートでは 18 回開催してきました。
 
 私はサーバーサイドのエンジニアですが、ゆめみの社外向け勉強会では、フロントエンドの勉強会や技術同人誌の勉強会、コードレビューの勉強会などテーマは決めずに毎回さまざまなテーマで開催しています。
 
 プライベートの勉強会でもさまざまなテーマで勉強会を開催、運営しているので紹介します。
 
-[^connpass]: connpass とは「エンジニアをつなぐ IT 勉強会支援プラットフォーム」です。主にエンジニア向けの勉強会やセミナーなどのイベント開催・参加が無料で行えます。さまざまなテーマの勉強会がたくさん登録されています。
+[^connpass]: connpass とは「エンジニアをつなぐ IT 勉強会支援プラットフォーム」です。主にエンジニア向けの勉強会やセミナーなどのイベント開催・参加が無料で行えます。
+[^yumemi_connpass]: https://yumemi.connpass.com/ で勉強会の参加者、登壇者の募集を行っています。
 
-### 若手ふんわり勉強部
+### 若手ふんわり勉強部[^wakate_study]
+
+[^wakate_study]: https://wakate-funwari-study.connpass.com/
 
 <!-- <img alt="若手ふんわり勉強部のイベントページ" style="margin: auto;display: block;" width="60%" src="./image_omori/若手ふんわり勉強部%20-%20connpass%20-%20wakate-funwari-study.connpass.com.png"> -->
-
-URL：https://wakate-funwari-study.connpass.com/
 
 新卒１〜３年目を対象にした勉強会です。登壇者、参加者、運営も全員が３年以下のメンバーで構成しています。私も運営に入っています。
 
@@ -39,27 +40,27 @@ URL：https://wakate-funwari-study.connpass.com/
 
 また、運営の経験を３年目までにできるので、将来、会社やコミュニティーのイベントや勉強会の運営をすることになった時に経験が役立つのかなと思います。
 
-### Akihabara.any
+### Akihabara.any[^akihabara_any]
+
+[^akihabara_any]: https://akihabara-any.connpass.com/
 
 <!-- <img alt="Akihabara.anyのイベントページ" style="margin: auto;display: block;" width="60%" src="./image_omori/Akihabara.any%20-%20connpass%20-%20akihabara-any.connpass.com.png"> -->
 
-URL：https://akihabara-any.connpass.com/
+この勉強会は@godan09[^godan09]さんが主催する勉強会です。私は運営として手伝いをしています。
 
-この勉強会は[@godan09](https://x.com/godan09)さんが主催する勉強会です。私は運営として手伝いをしています。
-
-都心では珍しい、ノンジャンル技術系 LT イベントです。他の都心の勉強会ではテーマが決められている勉強会がほとんどですが、@godan09 さん曰く、この勉強会は「研究室の中の雑談や技術サークル部屋の雑談」のような勉強会を目指しているそうです。
+都心では珍しい、ノンジャンル技術系 LT イベントです。他の都心の勉強会ではテーマが決められている勉強会がほとんどですが、@godan09[^godan09] さん曰く、この勉強会は「研究室の中の雑談や技術サークル部屋の雑談」のような勉強会を目指しているそうです。
 
 個人で使っているソフトウェアや趣味で作っているものを、自由に話せる場は都心には少ないように思います。この勉強会では、テーマフリーなので自由に話して交流できます。
 
-### エンジニアニメ
+[^godan09]: https://x.com/godan09
+
+### エンジニアニメ[^engineers_anime]
+
+[^engineers_anime]: https://engineers-anime.connpass.com/
 
 <!-- <img alt="エンジニアニメのイベントページ" style="margin: auto;display: block;" width="60%" src="./image_omori/エンジニアニメ%20-%20connpass%20-%20engineers-anime.connpass.com.png"> -->
 
-URL：https://engineers-anime.connpass.com/
-
-私が主催している勉強会です。
-
-エンジニアがアニメから影響を受けた話をする勉強会です。参加者の方々には飲食物の持ち込みを許可しています。そのため、プリキュアのウエハースが箱で持ち込まれたり、ピザノコが持ち込まれたりなど、私が期待した以上の発展をしています。
+私が主催しています。エンジニアがアニメから影響を受けた話をする勉強会です。参加者の方々には飲食物の持ち込みを許可しています。そのため、プリキュアのウエハースが箱で持ち込まれたり、ピザノコが持ち込まれたりなど、私が期待した以上の発展をしています。
 
 エンジニアだとリモートワークやフルリモートの方が一定数いると思います。その中で、仕事以外の趣味の話をざっくばらんに話せる機会はあまりないと思います。そのような環境の中で、趣味（アニメ）の話から仕事の話まで自由にできる環境が欲しいと思い企画、主催しています。
 
@@ -85,13 +86,20 @@ URL：https://engineers-anime.connpass.com/
 
 このような活動により、アニメが好きなエンジニアと繋がれたり、勉強会の雰囲気などを知ることができました。また、さまざまな会社のエンジニアの方々と交流できました。
 
-勉強会に参加しつつ、アニメ好きのエンジニアと交流できる場が欲しいと思い続けていたところで、とあるスライドをみつけました。にしこりさぶろ〜([@subroh_0508](https://x.com/subroh_0508))さんが発表された「[自己効力感を二次元アイドル作品から得ながら社会人としての成長を超加速させる](https://speakerdeck.com/subroh0508/zi-ji-xiao-li-gan-woer-ci-yuan-aidoruzuo-pin-karade-nagarashe-hui-ren-tositenocheng-chang-wochao-jia-su-saseru)」のスライドを発見しました。
+勉強会に参加しつつ、アニメ好きのエンジニアと交流できる場が欲しいと思い続けていたところで、とあるスライドをみつけました。にしこりさぶろ〜(@subroh_0508)[^subroh]さんが発表された「自己効力感を二次元アイドル作品から得ながら社会人としての成長を超加速させる」[^subroh_slide]のスライドを発見しました。
 
-このスライドを元に勉強会を企画し、「[エンジニアがアニメから得た学び](https://engineers-anime.connpass.com/event/314672/)」勉強会を開催しました。私がオフラインでアニメの話題で盛り上がりたかったので、オフラン開催にしました。
+[^subroh]: https://x.com/subroh_0508
+[^subroh_slide]: https://speakerdeck.com/subroh0508/zi-ji-xiao-li-gan-woer-ci-yuan-aidoruzuo-pin-karade-nagarashe-hui-ren-tositenocheng-chang-wochao-jia-su-saseru
+
+このスライドを元に勉強会を企画し、「エンジニアがアニメから得た学び[^anime_manabi_1]」勉強会を開催しました。私がオフラインでアニメの話題で盛り上がりたかったので、オフラン開催にしました。
+
+[^anime_manabi_1]: https://engineers-anime.connpass.com/event/314672/
 
 ### 時間と場所を決める
 
-会場は、技術カンファレンスのスタッフとして参加したことで知り合うことができた、[@tadsan](https://x.com/tadsan) さんにお願いし pixiv さんの会場をお借りしました。
+会場は、技術カンファレンスのスタッフとして参加したことで知り合うことができた、@tadsan[^tadsan] さんにお願いし pixiv さんの会場をお借りしました。
+
+[^tadsan]: https://x.com/tadsan
 
 ### 参加者を集める
 
@@ -103,7 +111,7 @@ URL：https://engineers-anime.connpass.com/
 
 ### 当日を迎える
 
-イベントページに会の趣旨や会のテーマのベースになっている、にしこりさぶろ〜([@subroh_0508](https://x.com/subroh_0508))さんの「[自己効力感を二次元アイドル作品から得ながら社会人としての成長を超加速させる](https://speakerdeck.com/subroh0508/zi-ji-xiao-li-gan-woer-ci-yuan-aidoruzuo-pin-karade-nagarashe-hui-ren-tositenocheng-chang-wochao-jia-su-saseru)」のスライドのリンクを記載していましたが、発表者に伝わっているが不安でした。
+イベントページに会の趣旨や会のテーマのベースになっている、にしこりさぶろ〜(@subroh_0508[^subroh])さんのスライド[^subroh_slide]のリンクを記載していましたが、発表者に伝わっているが不安でした。
 
 そんな不安を抱えていましたが、にしこりさぶろ〜さんのトークを最初にしていただいたおかげで、その後発表する方々や参加者の方々に雰囲気が伝わり、問題なく会を終えることができました。
 
@@ -122,13 +130,12 @@ URL：https://engineers-anime.connpass.com/
 
 私は東京でこの勉強会を開き、できるだけ多くの方と交流したいと思っていました。そのため、都心からアクセスがよい場所でレンタルルームを探しました。ですが、どこも１時間 5,000 円ほどで個人で負担するには金額が大きすぎるなと感じていました。プロジェクターやスクリーンは別途料金が発生する場所も多々あります。
 
-しかし、コミュニティに対して場所やプロジェクターやスクリーンを貸していただける企業があります。オイシックス・ラ・大地さんやタイミーさんはブログなどで紹介しています。[^kaijyou]
+しかし、コミュニティに対して場所やプロジェクターやスクリーンを貸していただける企業があります。オイシックス・ラ・大地さん[^oisix]やタイミーさん[^timee]はブログなどで紹介しています。
 
-[^kaijyou]:
-    [オイシックス・ラ・大地でコミュニティへの会場提供を再開しました！！ - Oisix ra daichi Creator's Blog（オイシックス・ラ・大地クリエイターズブログ）](https://creators.oisixradaichi.co.jp/entry/2023/11/08/120716),
-    [タイミー広場を技術コミュニティにオープン化します｜かわまた／DevRel](https://note.com/r_kawamata/n/nb3157e12819c)
+[^oisix]: https://creators.oisixradaichi.co.jp/entry/2023/11/08/120716
+[^timee]: https://note.com/r_kawamata/n/nb3157e12819c
 
-「エンジニアニメ」の初回開催時に会場を貸してくださった pixiv さんも PHP 関連のコミュニティーの勉強会などに会場を提供していることを知り、@tadsan さんにお願いして貸していただきました。
+「エンジニアニメ」の初回開催時に会場を貸してくださった pixiv さんも PHP 関連のコミュニティーの勉強会などに会場を提供していることを知り、@tadsan[^tadsan] さんにお願いして貸していただきました。
 貸していただいたお陰で、会場費で数万円の赤字を出すことを避けることができました。
 
 都内で勉強会を開催するときに一番困るのは会場だと思います。次に人が集まるかどうかの不安だと思います。しかし、上記の記事では 10 名以上ととてもハードルが低くなっているように感じます。
