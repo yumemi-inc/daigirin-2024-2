@@ -394,3 +394,9 @@ nalgebra クレートの `UnitQuaternion` 型にも、補間計算のための `
 また、nalgebra クレートのリファレンスは次のところにあります。
 
 - `https://docs.rs/nalgebra/`
+
+<!-- 奇数ページを調整するための強制改ページ -->
+<!-- markdownlint-disable -->
+<hr class="page-break" />
+　
+<!-- markdownlint-enable -->
