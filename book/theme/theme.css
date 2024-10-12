@@ -32,3 +32,18 @@
 .colophon-value {
   text-align: left;
 }
+
+/* 数式用のフォント */
+@import url('https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap');
+
+/* 数式用スタイル */
+.math {
+  font-family: "STIX Two Text", serif;
+  font-style: normal;
+}
+
+/* イタリック表記の変数向け数式用スタイル */
+.math-italic {
+  font-family: "STIX Two Text", serif;
+  font-style: italic;
+}
