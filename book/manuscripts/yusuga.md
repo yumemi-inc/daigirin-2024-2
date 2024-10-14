@@ -1015,7 +1015,8 @@ struct OpenAPIRequestInjectionMiddleware: AsyncMiddleware {
 }
 ```
 
-<!-- textlint-disable -->`Sources/App/entrypoint.swift`<!-- textlint-enable --> の main メソッド内で OpenAPIRequestInjectionMiddleware を VaporTransport に追加します。
+<!-- textlint-disable -->
+`Sources/App/entrypoint.swift`<!-- textlint-enable --> の main メソッド内で OpenAPIRequestInjectionMiddleware を VaporTransport に追加します。
 
 
 ```diff
