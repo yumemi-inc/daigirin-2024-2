@@ -27,7 +27,7 @@ class: exclude-hashira
 </div>
   <div class="colophon-row">
     <div class="colophon-label">連絡先</div>
-    <div class="colophon-value">https://twitter.com/yumemiinc</div>
+    <div class="colophon-value">https://x.com/yumemiinc</div>
   </div>
 </div>
 
