@@ -4,7 +4,9 @@ module.exports = {
   language: 'ja',
   size: 'A5',
   theme: [
-    'vivliostyle-theme-macneko-techbook',
+    '@vivliostyle/theme-base@1.0.1', // 大技林テーマが 2.0.0 に対応したら削除してください。
+    '@vivliostyle/theme-techbook@1.0.1', // 大技林テーマが 2.0.0 に対応したら削除してください。
+    'vivliostyle-theme-macneko-techbook@0.2.0',
     'theme/theme.css'
   ],
   entry: [
